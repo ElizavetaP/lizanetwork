@@ -1,0 +1,11 @@
+<Context allowCasualMultipartParsing="true" docBase="/home/test/photos" path="/static">
+<Resource name="jdbc_empDS" auth="Container"
+          type="javax.sql.DataSource"
+          driverClassName="org.h2.Driver"
+          url="jdbc:h2:~/git/hellow/src/main/java/org/github/Elizaveta/hello/helloh2db"
+          username="sa" password=""
+          maxActive="20" maxIdle="10" maxWait="-1"
+          description="Datasource to employee database"  />
+
+
+</Context>
