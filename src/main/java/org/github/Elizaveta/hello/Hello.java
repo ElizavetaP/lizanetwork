@@ -1,5 +1,8 @@
 package org.github.Elizaveta.hello;
 
+import org.github.Elizaveta.hello.dao.PersonDAO;
+import org.github.Elizaveta.hello.dao.PhotoDAO;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;

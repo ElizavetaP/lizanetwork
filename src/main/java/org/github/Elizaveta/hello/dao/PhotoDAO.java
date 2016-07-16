@@ -1,4 +1,4 @@
-package org.github.Elizaveta.hello;
+package org.github.Elizaveta.hello.dao;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;

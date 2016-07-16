@@ -1,15 +1,14 @@
 package org.github.Elizaveta.hello;
 
 import org.apache.log4j.Logger;
+import org.github.Elizaveta.hello.dao.PersonDAO;
+import org.github.Elizaveta.hello.dao.PhotoDAO;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 
 public class Registration extends HttpServlet {

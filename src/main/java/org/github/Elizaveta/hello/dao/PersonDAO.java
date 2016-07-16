@@ -1,4 +1,6 @@
-package org.github.Elizaveta.hello;
+package org.github.Elizaveta.hello.dao;
+
+import org.github.Elizaveta.hello.Person;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
