@@ -26,7 +26,7 @@ public class Hello extends HttpServlet {
 
         String searchname = req.getParameter("searchname");
 
-        req.setAttribute("photos", photoDAO.getAllPhotos());
+        req.setAttribute("photos", photoDAO.getAllAvatar());
         if (searchname == null || searchname == "") {
             req.setAttribute("persons", personDAO.getPersons());
         } else {

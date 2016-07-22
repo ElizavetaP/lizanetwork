@@ -1,6 +1,6 @@
 <div id="header">
     <!-- логотип -->
-    <a href="/" id="logo"><img src="tomcat.png"></a>
+    <a href="/" id="logo"><img src="qwerty"></a>
 
     <!-- дополнительные ссылки сверху -->
     <div id="links">

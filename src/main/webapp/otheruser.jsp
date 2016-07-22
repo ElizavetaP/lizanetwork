@@ -11,7 +11,7 @@
 </head>
 <body>
 <h1>
-<font color="steelblue"> ${user.get("FirstName")} ${user.get("LastName")}</font>
+<font color="steelblue"> ${user.getFirstName()} ${user.getLastName()}</font>
 </h1>
 <table width="100%" align="center"
 bgcolor="#e0e0e0" >
@@ -27,11 +27,11 @@ bgcolor="#e0e0e0" >
 </td>
 <td align="left" width="30%"  valign="top">
 <p></p>
-<p>${user.get("country")}</p>
-<p>${user.get("town")}</p>
-<p>${user.get("birthday")}</p>
-<p>${user.get("education")}</p>
-<p>${user.get("job")}</p>
+<p>${user.getCountry()}</p>
+<p>${user.getTown()}</p>
+<p>${user.getBirthday()}</p>
+<p>${user.getEducation()}</p>
+<p>${user.getJob()}</p>
 </td>
 </tr>
 

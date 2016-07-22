@@ -62,6 +62,7 @@ public class HelloH2 {
         /*resultSet = statement.executeQuery("SELECT email FROM USERS where ID = 2;");
         resultSet.next();
         System.out.println(resultSet.getString(1));*/
+/*
 
         resultSet = statement.executeQuery("SELECT * FROM USERS;");
         System.out.println(resultSet);
@@ -69,11 +70,10 @@ public class HelloH2 {
             System.out.println(resultSet.getString("ID")+" " +resultSet.getString("password")+
                     resultSet.getString("email"));
         }
+*/
 
-       String createTable =
-               "CREATE TABLE passwords (ID bigint, password varchar(30));";
-        statement.executeUpdate(createTable);
-        String insItem = "INSERT INTO passwords (ID, password) VALUES (1,12345);" +
+
+       /* String insItem = "INSERT INTO passwords (ID, password) VALUES (1,12345);" +
                 "INSERT INTO passwords (ID, password) VALUES (2,12345);" +
                 "INSERT INTO passwords (ID, password) VALUES (3,12345);" +
                 "INSERT INTO passwords (ID, password) VALUES (4,12345);" +
@@ -82,11 +82,13 @@ public class HelloH2 {
                 "INSERT INTO passwords (ID, password) VALUES (7,12345);" +
                 "INSERT INTO passwords (ID, password) VALUES (8,12345);";
         statement.executeUpdate(insItem);
-
+*/
         resultSet = statement.executeQuery("SELECT * FROM passwords;");
+
+
         System.out.println(resultSet);
         while (resultSet.next()) {
-            System.out.println(resultSet.getString(1)+" " +resultSet.getString(2));
+            System.out.println(resultSet.getString("ID") + " " + resultSet.getString("password"));
         }
 
 

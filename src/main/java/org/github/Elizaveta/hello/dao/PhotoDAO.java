@@ -63,7 +63,7 @@ public class PhotoDAO {
         return image;
         }
 
-   /* public Map<String,String> getAllAvatar(){
+    public Map<String,String> getAllAvatar(){
         Map<String,String> avatars = new HashMap<>();
         try(Connection connection = ds.getConnection()){
             Statement statement = connection.createStatement();
@@ -75,7 +75,7 @@ public class PhotoDAO {
             throw new RuntimeException(e);
         }
         return avatars;
-    }*/
+    }
 
     public List<Photo>  getAllPhotos(){
         List<Photo> photos = new ArrayList<>();

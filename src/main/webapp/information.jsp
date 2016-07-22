@@ -9,11 +9,11 @@
 <table width="100%" cellpadding="4">
 <tr>
      <td align="right" width="40%">First name</td>
-     <td><input name="newfirstname" type="text" value="${user.get("FirstName")}" maxlength="50" required/></td>
+     <td><input name="newfirstname" type="text" value="${user.getFirstName()}" maxlength="50" required/></td>
 </tr>
 <tr>
      <td align="right" >Last name</td>
-     <td><input name="newlastname" type="text" value="${user.get("LastName")}" maxlength="50" required/></td>
+     <td><input name="newlastname" type="text" value="${user.getLastName()}" maxlength="50" required/></td>
 </tr>
 <tr>
      <td align="right" >Sex</td>
@@ -22,11 +22,11 @@
 </tr>
 <tr>
      <td align="right" >Country</td>
-     <td><input name="newcountry" type="text" value="${user.get("country")}" maxlength="50" /></td>
+     <td><input name="newcountry" type="text" value="${user.getCountry()}" maxlength="50" /></td>
 </tr>
 <tr>
      <td align="right" >Town</td>
-     <td><input name="newtown" type="text" value="${user.get("town")}" maxlength="50" /></td>
+     <td><input name="newtown" type="text" value="${user.getTown()}" maxlength="50" /></td>
 </tr>
 <tr>
      <td align="right" >Birthday</td>
@@ -46,19 +46,19 @@
      }
      };
      </script>
-     <input name="newbirthday" type="date" value="${user.get("birthday")}"/></td>
+     <input name="newbirthday" type="date" value="${user.getBirthday()}"/></td>
 </tr>
 <tr>
      <td align="right" >Education</td>
-     <td><input name="neweducation" type="text" value="${user.get("education")}" maxlength="50" /></td>
+     <td><input name="neweducation" type="text" value="${user.getEducation()}" maxlength="50" /></td>
 </tr>
 <tr>
      <td align="right" >Job</td>
-     <td><input name="newjob" type="text" value="${user.get("job")}" maxlength="50" /></td>
+     <td><input name="newjob" type="text" value="${user.getJob()}" maxlength="50" /></td>
 </tr>
 <tr>
      <td align="right" >email</td>
-     <td><input name="newemail" type="email" value="${user.get("email")}" maxlength="50"  required/></td>
+     <td><input name="newemail" type="email" value="${user.getEmail()}" maxlength="50"  required/></td>
 </tr>
 <tr>
      <td></td>

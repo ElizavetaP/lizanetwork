@@ -51,35 +51,32 @@ public class PersonDAO {
                 return false;
             }
         }
-        boolean result;
         try (Connection connection = ds.getConnection()){
             String insItem ="INSERT INTO USERS (FirstName, LastName, email) VALUES (?, ?, lower(?));";
             PreparedStatement prepareStatement = connection.prepareStatement(insItem);
             prepareStatement.setString(1, firstName);
             prepareStatement.setString(2, lastName);
-            prepareStatement.setString(3, password);
-            prepareStatement.setString(4, email);
+            prepareStatement.setString(3, email);
             prepareStatement.executeUpdate();
 
             int ID = -1;
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT max(ID) FROM USERS");
             if (resultSet.next()) {
-                ID = resultSet.getInt("ID");
+                ID = resultSet.getInt(1);
             }
 
             String insItem2 ="INSERT INTO passwords (ID, password) VALUES (?, ?);";
-            PreparedStatement prepareStatement2 = connection.prepareStatement(insItem2);
+            prepareStatement = connection.prepareStatement(insItem2);
             prepareStatement.setInt(1, ID);
-            prepareStatement2.setString(2, password);
+            prepareStatement.setString(2, password);
+            prepareStatement.executeUpdate();
 
-
-            result = true;
+            return true;
         }catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
-        return result;
         }
 
     public boolean login(String password, String email){
