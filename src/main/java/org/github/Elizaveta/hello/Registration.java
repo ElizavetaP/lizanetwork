@@ -37,20 +37,17 @@ public class Registration extends HttpServlet {
 
         LOG.debug("ragistration is " + add);
 
-        if(!add){
+        if (!add) {
             req.setAttribute("errormessage", "User with that email already exists");
             req.getRequestDispatcher("registration.jsp").forward(req, resp);
-        }else {
+        } else {
             String ID;
-            try {
-                ID = personDAO.getID(newemail);
-                PhotoDAO photoDAO = new PhotoDAO();
-                photoDAO.setAvatar(ID, "qwerty");
-            }catch (SQLException e){
-                throw new RuntimeException(e);
-            }
+            ID = personDAO.getID(newemail);
+            PhotoDAO photoDAO = new PhotoDAO();
+            photoDAO.setAvatar(ID, "qwerty");
+
             req.setAttribute("answermessage", "Successful registration. Please log in");
             req.getRequestDispatcher("registration.jsp").forward(req, resp);
         }
-       }
+    }
 }

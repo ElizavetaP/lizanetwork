@@ -24,7 +24,7 @@ public class Authorization extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession httpSession = req.getSession();
         String logout = req.getParameter("logout");
-        if(logout!=null) httpSession.setAttribute("isLogged", null);
+        if (logout != null) httpSession.setAttribute("isLogged", null);
         req.getRequestDispatcher("authorization.jsp").forward(req, resp);
 
     }
@@ -40,15 +40,11 @@ public class Authorization extends HttpServlet {
         HttpSession httpSession = req.getSession();
         if (isLogged) {
             String ID;
-            try {
-                ID = personDAO.getID(logemail);
-            }catch (SQLException e){
-                throw new RuntimeException(e);
-            }
+            ID = personDAO.getID(logemail);
             httpSession.setAttribute("isLogged", "Logged");
             httpSession.setAttribute("ID", ID);
             resp.sendRedirect("user");
-        }else {
+        } else {
             req.setAttribute("errormessage", "Incorrect email or password");
             req.getRequestDispatcher("authorization.jsp").forward(req, resp);
         }

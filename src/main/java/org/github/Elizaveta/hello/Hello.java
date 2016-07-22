@@ -38,12 +38,7 @@ public class Hello extends HttpServlet {
             System.out.println("null");
         } else {
             System.out.println(searchname);
-            try {
-                req.setAttribute("persons", personDAO.searchByName(searchname));
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-
+            req.setAttribute("persons", personDAO.searchByName(searchname));
         }
         req.getRequestDispatcher("main.jsp").forward(req, resp);
     }

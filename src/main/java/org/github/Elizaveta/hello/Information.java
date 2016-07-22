@@ -21,12 +21,8 @@ public class Information extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession httpSession = req.getSession();
-        try {
-            req.setAttribute("user", personDAO.getUser((String)httpSession.getAttribute("ID")));
-            req.getRequestDispatcher("information.jsp").forward(req, resp);
-        }catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        req.setAttribute("user", personDAO.getUser((String) httpSession.getAttribute("ID")));
+        req.getRequestDispatcher("information.jsp").forward(req, resp);
     }
 
     @Override
@@ -42,13 +38,10 @@ public class Information extends HttpServlet {
         String newemail = req.getParameter("newemail");
 
         HttpSession httpSession = req.getSession();
-        try {
-        personDAO.editUser((String)httpSession.getAttribute("ID"),newfirstname,
-        newlastname,newsex,newcountry,newtown,newbirthday,neweducation,newjob,newemail);
 
-        }catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        personDAO.editUser((String) httpSession.getAttribute("ID"), newfirstname,
+                newlastname, newsex, newcountry, newtown, newbirthday, neweducation, newjob, newemail);
+
         resp.sendRedirect("user");
     }
 }

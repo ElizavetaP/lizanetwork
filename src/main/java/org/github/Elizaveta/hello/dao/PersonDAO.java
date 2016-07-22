@@ -12,18 +12,15 @@ import java.util.List;
 import java.util.Map;
 
 public class PersonDAO {
-    Connection connection = null;
+    private final DataSource ds;
 
     public PersonDAO() {
         super();
         try {
             /* Заставляем ClassLoader подгрузить класс драйвера в память java. */
             InitialContext initContext= new InitialContext();
-            DataSource ds = (DataSource) initContext.lookup("java:comp/env/jdbc_empDS");
-            connection = ds.getConnection();
+            ds = (DataSource) initContext.lookup("java:comp/env/jdbc_empDS");
       } catch (NamingException e) {
-            throw new RuntimeException(e);
-        }catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
@@ -33,7 +30,7 @@ public class PersonDAO {
         List<Person> persons = new ArrayList<>();
         ResultSet resultSet;
 
-        try {
+        try (Connection connection = ds.getConnection()){
             Statement statement = connection.createStatement();
             resultSet = statement.executeQuery("SELECT * FROM USERS");
             while (resultSet.next()) {
@@ -50,11 +47,8 @@ public class PersonDAO {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
         return persons;
     }
-
-
 
     public boolean addUser(String firstName, String lastName, String password, String email){
 
@@ -64,7 +58,7 @@ public class PersonDAO {
             }
         }
         boolean result;
-        try {
+        try (Connection connection = ds.getConnection()){
             String insItem ="INSERT INTO USERS (FirstName, LastName, password, email) VALUES (?, ?, ?, lower(?));";
             PreparedStatement prepareStatement = connection.prepareStatement(insItem);
             prepareStatement.setString(1, firstName);
@@ -90,62 +84,74 @@ public class PersonDAO {
         return false;
     }
 
-    public Map<String,String> getUser(String ID) throws SQLException{
-        Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM USERS where ID = " + ID + ";");
+    public Map<String,String> getUser(String ID) {
         Map<String, String> usermap = new HashMap<>();
-        if(resultSet.next()){
-            usermap.put("FirstName",resultSet.getString("FirstName"));
-            usermap.put("LastName",resultSet.getString("LastName"));
-            usermap.put("sex",resultSet.getString("sex"));
-            usermap.put("country",resultSet.getString("country"));
-            usermap.put("town",resultSet.getString("town"));
-            usermap.put("email",resultSet.getString("email"));
-            usermap.put("sex",resultSet.getString("sex"));
-            usermap.put("education",resultSet.getString("education"));
-            usermap.put("job",resultSet.getString("job"));
-            usermap.put("birthday",resultSet.getString("birthday"));
-            usermap.put("photo_id",resultSet.getString("photo_id"));
+        try(Connection connection = ds.getConnection()) {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM USERS where ID = " + ID + ";");
+            if (resultSet.next()) {
+                usermap.put("FirstName", resultSet.getString("FirstName"));
+                usermap.put("LastName", resultSet.getString("LastName"));
+                usermap.put("sex", resultSet.getString("sex"));
+                usermap.put("country", resultSet.getString("country"));
+                usermap.put("town", resultSet.getString("town"));
+                usermap.put("email", resultSet.getString("email"));
+                usermap.put("sex", resultSet.getString("sex"));
+                usermap.put("education", resultSet.getString("education"));
+                usermap.put("job", resultSet.getString("job"));
+                usermap.put("birthday", resultSet.getString("birthday"));
+                usermap.put("photo_id", resultSet.getString("photo_id"));
 
+            }
+            resultSet.close();
+        }catch (SQLException e) {
+            throw new RuntimeException(e);
         }
-        resultSet.close();
         return usermap;
     }
 
-    public String getID(String email) throws SQLException{
-        PreparedStatement prepareStatement = connection.prepareStatement("SELECT ID FROM USERS where lower(email) = lower(?) ;");
-        prepareStatement.setString(1, email);
-        ResultSet resultSet = prepareStatement.executeQuery();
-        resultSet.next();
-        return resultSet.getString(1);
+    public String getID(String email) {
+        try(Connection connection = ds.getConnection()) {
+            PreparedStatement prepareStatement = connection.prepareStatement("SELECT ID FROM USERS where lower(email) = lower(?) ;");
+            prepareStatement.setString(1, email);
+            ResultSet resultSet = prepareStatement.executeQuery();
+            resultSet.next();
+            return resultSet.getString(1);
+        }catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void editUser(String ID, String firstname, String lastname, String sex,
                             String country, String town, String birthday,
-                            String education, String job, String email) throws SQLException{
-
-        String insItem ="update USERS set FirstName = ?, LastName= ?, sex = ?, country = ?" +
-                ", town = ?, birthday = ?, education =?, job = ?,email = ? where ID = "+ID+";";
-        PreparedStatement prepareStatement = connection.prepareStatement(insItem);
-        prepareStatement.setString(1, firstname);
-        prepareStatement.setString(2, lastname);
-        prepareStatement.setString(3, sex);
-        prepareStatement.setString(4, country);
-        prepareStatement.setString(5, town);
-        prepareStatement.setString(6, birthday);
-        prepareStatement.setString(7, education);
-        prepareStatement.setString(8, job);
-        prepareStatement.setString(9, email);
-        prepareStatement.executeUpdate();
+                            String education, String job, String email) {
+        try(Connection connection = ds.getConnection()) {
+            String insItem = "update USERS set FirstName = ?, LastName= ?, sex = ?, country = ?" +
+                    ", town = ?, birthday = ?, education =?, job = ?,email = ? where ID = " + ID + ";";
+            PreparedStatement prepareStatement = connection.prepareStatement(insItem);
+            prepareStatement.setString(1, firstname);
+            prepareStatement.setString(2, lastname);
+            prepareStatement.setString(3, sex);
+            prepareStatement.setString(4, country);
+            prepareStatement.setString(5, town);
+            prepareStatement.setString(6, birthday);
+            prepareStatement.setString(7, education);
+            prepareStatement.setString(8, job);
+            prepareStatement.setString(9, email);
+            prepareStatement.executeUpdate();
+        }catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public List<Person> searchByName(String searchname) throws SQLException{
+    public List<Person> searchByName(String searchname) {
         List<Person> persons = new ArrayList<>();
 
         String[] names = searchname.trim().split(" ");
         String name1 = "%" + names[0] + "%";
         String insItem;
         PreparedStatement prepareStatement;
+        try(Connection connection = ds.getConnection()) {
         if (names.length>1) {
             String name2 ="%" + names[1] +"%";
             insItem ="SELECT * FROM USERS WHERE (lower(FirstName) LIKE lower(?) AND " +
@@ -162,7 +168,6 @@ public class PersonDAO {
             prepareStatement = connection.prepareStatement(insItem);
             prepareStatement.setString(1, name1);
             prepareStatement.setString(2, name1);
-        }
 
         ResultSet resultSet = prepareStatement.executeQuery();
         while (resultSet.next()) {
@@ -172,6 +177,11 @@ public class PersonDAO {
             String email = resultSet.getString("email");
             Person person = new Person(firstName,lastName,password,email);
             persons.add(person);
+        }
+
+        }
+        }catch (SQLException e) {
+            throw new RuntimeException(e);
         }
         return persons;
     }
