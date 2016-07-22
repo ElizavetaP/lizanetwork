@@ -7,9 +7,7 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class PersonDAO {
     private final DataSource ds;
@@ -34,16 +32,12 @@ public class PersonDAO {
             Statement statement = connection.createStatement();
             resultSet = statement.executeQuery("SELECT * FROM USERS");
             while (resultSet.next()) {
-                String firstName = resultSet.getString("FirstName");
-                String lastName = resultSet.getString("LastName");
-                String password = resultSet.getString("password");
-                String email = resultSet.getString("email");
-                String ID = resultSet.getString("ID");
-                Person person = new Person(firstName,lastName,password,email);
-                person.setID(ID);
-                persons.add(person);
+                persons.add(new Person(resultSet.getString("FirstName"),resultSet.getString("LastName"),
+                        resultSet.getString("email"),resultSet.getInt("ID"),resultSet.getString("sex"),
+                        resultSet.getString("country"), resultSet.getString("town"),
+                        resultSet.getString("education"),resultSet.getString("job"),
+                        resultSet.getDate("birthday"),resultSet.getInt("photo_id")));
             }
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -75,39 +69,43 @@ public class PersonDAO {
         }
 
     public boolean login(String password, String email){
-
         for (Person person  : getPersons()) {
-            if (person.getEmail().equals(email.toLowerCase())&&person.getPassword().equals(password)){
-                return true;
+            if (person.getEmail().equals(email.toLowerCase())){
+                int ID = person.getID();
+                try(Connection connection = ds.getConnection()) {
+                    Statement statement = connection.createStatement();
+                    ResultSet resultSet = statement.executeQuery("SELECT password FROM passwords where ID = " + ID + ";");
+                    if (resultSet.next()) {
+                        if (resultSet.getString("password").equals(password)) {
+                            return true;
+                        }
+                    }
+                }catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
         return false;
     }
 
-    public Map<String,String> getUser(String ID) {
-        Map<String, String> usermap = new HashMap<>();
+    public Person getUser(String ID) {
+        Person user = null;
         try(Connection connection = ds.getConnection()) {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM USERS where ID = " + ID + ";");
             if (resultSet.next()) {
-                usermap.put("FirstName", resultSet.getString("FirstName"));
-                usermap.put("LastName", resultSet.getString("LastName"));
-                usermap.put("sex", resultSet.getString("sex"));
-                usermap.put("country", resultSet.getString("country"));
-                usermap.put("town", resultSet.getString("town"));
-                usermap.put("email", resultSet.getString("email"));
-                usermap.put("sex", resultSet.getString("sex"));
-                usermap.put("education", resultSet.getString("education"));
-                usermap.put("job", resultSet.getString("job"));
-                usermap.put("birthday", resultSet.getString("birthday"));
-                usermap.put("photo_id", resultSet.getString("photo_id"));
+                user = new Person(resultSet.getString("FirstName"),resultSet.getString("LastName"),
+                        resultSet.getString("email"),resultSet.getInt("ID"),resultSet.getString("sex"),
+                        resultSet.getString("country"), resultSet.getString("town"),
+                        resultSet.getString("education"),resultSet.getString("job"),
+                        resultSet.getDate("birthday"),resultSet.getInt("photo_id"));
 
             }
             resultSet.close();
         }catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return usermap;
+        return user;
     }
 
     public String getID(String email) {
@@ -171,12 +169,11 @@ public class PersonDAO {
 
         ResultSet resultSet = prepareStatement.executeQuery();
         while (resultSet.next()) {
-            String firstName = resultSet.getString("FirstName");
-            String lastName = resultSet.getString("LastName");
-            String password = resultSet.getString("password");
-            String email = resultSet.getString("email");
-            Person person = new Person(firstName,lastName,password,email);
-            persons.add(person);
+            persons.add(new Person(resultSet.getString("FirstName"),resultSet.getString("LastName"),
+                    resultSet.getString("email"),resultSet.getInt("ID"),resultSet.getString("sex"),
+                    resultSet.getString("country"), resultSet.getString("town"),
+                    resultSet.getString("education"),resultSet.getString("job"),
+                    resultSet.getDate("birthday"),resultSet.getInt("photo_id")));
         }
 
         }

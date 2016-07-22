@@ -66,13 +66,28 @@ public class HelloH2 {
         resultSet = statement.executeQuery("SELECT * FROM USERS;");
         System.out.println(resultSet);
         while (resultSet.next()) {
-            System.out.println(resultSet.getString(1)+resultSet.getString(2)+
-                    resultSet.getString(3)+resultSet.getString(4)+resultSet.getString(5)+
-                    resultSet.getString(6));
+            System.out.println(resultSet.getString("ID")+" " +resultSet.getString("password")+
+                    resultSet.getString("email"));
         }
 
-        String u ="hwjwkl";
-        System.out.println(u.contains("h"));
+       /* String createTable = "CREATE TABLE passwords (ID bigint, password int);";
+        statement.executeUpdate(createTable);*/
+        String insItem = "INSERT INTO passwords (ID, password) VALUES (1,12345);" +
+                "INSERT INTO passwords (ID, password) VALUES (2,12345);" +
+                "INSERT INTO passwords (ID, password) VALUES (3,12345);" +
+                "INSERT INTO passwords (ID, password) VALUES (4,12345);" +
+                "INSERT INTO passwords (ID, password) VALUES (5,12345);" +
+                "INSERT INTO passwords (ID, password) VALUES (6,12345);" +
+                "INSERT INTO passwords (ID, password) VALUES (7,12345);" +
+                "INSERT INTO passwords (ID, password) VALUES (8,12345);";
+        statement.executeUpdate(insItem);
+
+        resultSet = statement.executeQuery("SELECT * FROM passwords;");
+        System.out.println(resultSet);
+        while (resultSet.next()) {
+            System.out.println(resultSet.getString(1)+" " +resultSet.getString(2));
+        }
+
 
         resultSet.close();
         statement.close();
