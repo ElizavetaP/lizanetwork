@@ -33,9 +33,15 @@ uri="http://java.sun.com/jsp/jstl/core" %>
                 <th>Lastname</th>
         <c:forEach var="person" items="${persons}">
             <tr>
-                <td><img src="/static/${photos.getPhoto_name()}" width="50">
+                <td>
+                <div id="logo">
+                <a href="otheruser?id=${person.getID()}">
+                <img src="/static/${photos.getPhoto_name()}" width="50"></a>
+                </div>
+                </td>
                 <td>${person.getFirstName()}</td>
                 <td>${person.getLastName()}</td>
+
             </tr>
         </c:forEach>
     </table>
