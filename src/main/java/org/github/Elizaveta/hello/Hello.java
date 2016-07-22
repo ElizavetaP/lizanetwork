@@ -32,7 +32,7 @@ public class Hello extends HttpServlet {
 
         String searchname = req.getParameter("searchname");
 
-        req.setAttribute("photos", photoDAO.getAllAvatar());
+        req.setAttribute("photos", photoDAO.getAllPhotos());
         if (searchname == null || searchname == "") {
             req.setAttribute("persons", personDAO.getPersons());
             System.out.println("null");

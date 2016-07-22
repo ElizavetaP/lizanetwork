@@ -1,5 +1,7 @@
 package org.github.Elizaveta.hello.dao;
 
+import org.github.Elizaveta.hello.Photo;
+
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
@@ -61,7 +63,7 @@ public class PhotoDAO {
         return image;
         }
 
-    public Map<String,String> getAllAvatar(){
+   /* public Map<String,String> getAllAvatar(){
         Map<String,String> avatars = new HashMap<>();
         try(Connection connection = ds.getConnection()){
             Statement statement = connection.createStatement();
@@ -73,6 +75,20 @@ public class PhotoDAO {
             throw new RuntimeException(e);
         }
         return avatars;
-    }
+    }*/
 
+    public List<Photo>  getAllPhotos(){
+        List<Photo> photos = new ArrayList<>();
+        try(Connection connection = ds.getConnection()){
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT photo_name, ID, album_id, photo_id FROM PHOTOS");
+            while (resultSet.next()){
+                photos.add(new Photo(resultSet.getInt("photo_id"),resultSet.getInt("album_id"),
+                        resultSet.getString("photo_name"),resultSet.getInt("ID")));
+            }
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+        return photos;
+    }
 }
