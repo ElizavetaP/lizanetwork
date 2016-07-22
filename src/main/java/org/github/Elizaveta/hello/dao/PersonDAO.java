@@ -5,6 +5,7 @@ import org.github.Elizaveta.hello.Person;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
+import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -53,13 +54,27 @@ public class PersonDAO {
         }
         boolean result;
         try (Connection connection = ds.getConnection()){
-            String insItem ="INSERT INTO USERS (FirstName, LastName, password, email) VALUES (?, ?, ?, lower(?));";
+            String insItem ="INSERT INTO USERS (FirstName, LastName, email) VALUES (?, ?, lower(?));";
             PreparedStatement prepareStatement = connection.prepareStatement(insItem);
             prepareStatement.setString(1, firstName);
             prepareStatement.setString(2, lastName);
             prepareStatement.setString(3, password);
             prepareStatement.setString(4, email);
             prepareStatement.executeUpdate();
+
+            int ID = -1;
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT max(ID) FROM USERS");
+            if (resultSet.next()) {
+                ID = resultSet.getInt("ID");
+            }
+
+            String insItem2 ="INSERT INTO passwords (ID, password) VALUES (?, ?);";
+            PreparedStatement prepareStatement2 = connection.prepareStatement(insItem2);
+            prepareStatement.setInt(1, ID);
+            prepareStatement2.setString(2, password);
+
+
             result = true;
         }catch (SQLException e) {
             throw new RuntimeException(e);

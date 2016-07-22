@@ -70,8 +70,9 @@ public class HelloH2 {
                     resultSet.getString("email"));
         }
 
-       /* String createTable = "CREATE TABLE passwords (ID bigint, password int);";
-        statement.executeUpdate(createTable);*/
+       String createTable =
+               "CREATE TABLE passwords (ID bigint, password varchar(30));";
+        statement.executeUpdate(createTable);
         String insItem = "INSERT INTO passwords (ID, password) VALUES (1,12345);" +
                 "INSERT INTO passwords (ID, password) VALUES (2,12345);" +
                 "INSERT INTO passwords (ID, password) VALUES (3,12345);" +
