@@ -1,5 +1,6 @@
 package org.github.Elizaveta.hello.dao;
 
+import org.github.Elizaveta.hello.Friendship;
 import org.github.Elizaveta.hello.Person;
 
 import javax.naming.InitialContext;
@@ -193,6 +194,31 @@ public class PersonDAO {
         }
         return persons;
     }
-
+    public List<Person> getFriends(int ID){
+        FriendshipDAO friendshipDAO = new FriendshipDAO();
+        List<Friendship> friendship = friendshipDAO.getFriendship(ID);
+        String id = "";
+        for (int i = 0; i < friendship.size(); i++) {
+            id+= friendship.get(i).getID_otheruser();
+        }
+        List<Person> friends = new ArrayList<>();
+        try(Connection connection = ds.getConnection()) {
+            String insItem = "SELECT * FROM USERS where ID in (?);";
+            PreparedStatement prepareStatement = connection.prepareStatement(insItem);
+            prepareStatement.setString(1, id);
+            ResultSet resultSet = prepareStatement.executeQuery();
+            if (resultSet.next()) {
+               friends.add(new Person(resultSet.getString("FirstName"),resultSet.getString("LastName"),
+                        resultSet.getString("email"),resultSet.getInt("ID"),resultSet.getString("sex"),
+                        resultSet.getString("country"), resultSet.getString("town"),
+                        resultSet.getString("education"),resultSet.getString("job"),
+                        resultSet.getDate("birthday"),resultSet.getInt("photo_id")));
+            }
+            resultSet.close();
+        }catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return friends;
+    }
 
 }

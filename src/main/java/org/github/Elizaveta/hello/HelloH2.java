@@ -76,12 +76,12 @@ public class HelloH2 {
         /*String insItem = "CREATE TABLE friendship (ID bigint, ID_otheruser bigint)";
         statement.executeUpdate(insItem);*/
 
-        resultSet = statement.executeQuery("SELECT * FROM passwords;");
+        resultSet = statement.executeQuery("SELECT * FROM friendship;");
 
 
         System.out.println(resultSet);
         while (resultSet.next()) {
-            System.out.println(resultSet.getString("ID") + " " + resultSet.getString("password"));
+            System.out.println(resultSet.getString(1) + " " + resultSet.getString(2));
         }
 
 

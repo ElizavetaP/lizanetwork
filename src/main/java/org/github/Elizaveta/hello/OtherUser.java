@@ -12,7 +12,6 @@ public class OtherUser extends HttpServlet {
     PersonDAO personDAO = null;
     PhotoDAO photoDAO = null;
     FriendshipDAO friendshipDAO = null;
-    private String filePath;
 
     public OtherUser() {
         super();
@@ -24,31 +23,48 @@ public class OtherUser extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession httpSession = req.getSession();
-        Integer id = Integer.parseInt(req.getParameter("id"));
-        if (id == null){
+        String ID_otheruser = req.getParameter("id");
+        if (ID_otheruser == null){
             resp.sendRedirect("/");
         }else {
-            req.setAttribute("user", personDAO.getUser(id));
-            req.setAttribute("image", photoDAO.getAvatar(id));
-            req.setAttribute("isFriend", friendshipDAO.isFriend(id,Integer.parseInt((String) httpSession.getAttribute("ID"))));
+            int ID = Integer.parseInt(ID_otheruser);
+            req.setAttribute("user", personDAO.getUser(ID));
+            req.setAttribute("image", photoDAO.getAvatar(ID));
+            req.setAttribute("isFriend", friendshipDAO.isFriend(ID,Integer.parseInt((String) httpSession.getAttribute("ID"))));
             req.getRequestDispatcher("otheruser.jsp").forward(req, resp);
         }
     }
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession httpSession = req.getSession();
-        String ID_otheruser = req.getParameter("id_otheruser");
+        String ID_otheruser = req.getParameter("id");
         if(ID_otheruser!=null) {
-            friendshipDAO.addFriend(Integer.parseInt(ID_otheruser), Integer.parseInt((String) httpSession.getAttribute("ID")));
+            int ID = Integer.parseInt(ID_otheruser);
+            friendshipDAO.addFriend(ID, Integer.parseInt((String) httpSession.getAttribute("ID")));
+            req.setAttribute("user", personDAO.getUser(ID));
+            req.setAttribute("image", photoDAO.getAvatar(ID));
+            req.setAttribute("isFriend", friendshipDAO.isFriend(ID,Integer.parseInt((String) httpSession.getAttribute("ID"))));
+
         }
-        String remove_otheruser = req.getParameter("remove_otheruser");
-        if(remove_otheruser!=null) {
-            friendshipDAO.removeFriend(Integer.parseInt(remove_otheruser), Integer.parseInt((String) httpSession.getAttribute("ID")));
-        }
+
         req.getRequestDispatcher("otheruser.jsp").forward(req, resp);
     }
 
-    public void init() {
-        filePath = getServletContext().getInitParameter("file-upload");
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession httpSession = req.getSession();
+        System.out.println("ffffffffffffff");
+        String ID_otheruser = req.getParameter("id");
+        if(ID_otheruser!=null) {
+            int ID = Integer.parseInt(ID_otheruser);
+            friendshipDAO.removeFriend(ID, Integer.parseInt((String)httpSession.getAttribute("ID")));
+            req.setAttribute("user", personDAO.getUser(ID));
+            req.setAttribute("image", photoDAO.getAvatar(ID));
+            req.setAttribute("isFriend", friendshipDAO.isFriend(ID,Integer.parseInt((String) httpSession.getAttribute("ID"))));
+
+        }
+        req.getRequestDispatcher("otheruser.jsp").forward(req, resp);
+
     }
+
 }

@@ -11,7 +11,7 @@
       </style>
 </head>
 <body>
-<p>
+
 <h1>
 <font color="steelblue"> ${user.getFirstName()} ${user.getLastName()}</font>
 </h1>
@@ -36,19 +36,36 @@ bgcolor="#e0e0e0" >
 <p>${user.getJob()}</p>
 </td>
 </tr>
-</p>
+</table>
+
+
+
+<table width="100%" align="center">
+<tr >
 <p>
 <c:if  test="${isFriend=='false'}">
-   <form action="otheruser?id_otheruser=${user.getID()}" method="Post" >
+   <form action="otheruser?id=${user.getID()}" method="Post" >
            <input type="submit" class="button" value="Add to friends"/>
                </form>
 </c:if>
 <c:if test="${isFriend=='true'}">
-   <form action="otheruser?remove_otheruser=${user.getID()}" method="Post" >
+   <form action="otheruser?id=${user.getID()}" method="Delete" >
            <input type="submit" class="button" value="Remove from friends"/>
                </form>
 </c:if>
-
 </p>
+</td>
+
+
+<td align="right"  valign="top">
+
+</td>
+
+</tr>
+</table>
+
+
+
+
 </body>
 </html>

@@ -32,6 +32,10 @@
         <servlet-name>otheruser</servlet-name>
         <servlet-class>org.github.Elizaveta.hello.OtherUser</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>friendlist</servlet-name>
+        <servlet-class>org.github.Elizaveta.hello.FriendList</servlet-class>
+    </servlet>
 
     <filter-mapping>
         <filter-name>filter</filter-name>
@@ -63,6 +67,10 @@
     <servlet-mapping>
         <servlet-name>otheruser</servlet-name>
         <url-pattern>/otheruser</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>friendlist</servlet-name>
+        <url-pattern>/friendlist</url-pattern>
     </servlet-mapping>
 
     <resource-ref>

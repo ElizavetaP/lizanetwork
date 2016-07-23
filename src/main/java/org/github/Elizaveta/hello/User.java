@@ -28,8 +28,8 @@ public class User extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession httpSession = req.getSession();
 
-        req.setAttribute("user", personDAO.getUser((Integer) httpSession.getAttribute("ID")));
-        req.setAttribute("image", photoDAO.getAvatar((Integer) httpSession.getAttribute("ID")));
+        req.setAttribute("user", personDAO.getUser(Integer.parseInt((String) httpSession.getAttribute("ID"))));
+        req.setAttribute("image", photoDAO.getAvatar(Integer.parseInt((String) httpSession.getAttribute("ID"))));
         req.getRequestDispatcher("user.jsp").forward(req, resp);
     }
 

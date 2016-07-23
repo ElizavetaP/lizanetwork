@@ -45,6 +45,11 @@ Edit
 <p>${user.getJob()}</p>
 </td>
 </tr>
-
+</table>
+<p>
+<form action="friendlist" method="Get" >
+           <input type="submit" value="Friend List"/>
+               </form>
+</p>
 </body>
 </html>

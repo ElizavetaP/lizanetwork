@@ -20,7 +20,7 @@ public class Information extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession httpSession = req.getSession();
-        req.setAttribute("user", personDAO.getUser((Integer) httpSession.getAttribute("ID")));
+        req.setAttribute("user", personDAO.getUser(Integer.parseInt((String) httpSession.getAttribute("ID"))));
         req.getRequestDispatcher("information.jsp").forward(req, resp);
     }
 
