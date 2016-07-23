@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="head.jsp" %>
 <head>
     <meta charset="UTF-8">
@@ -10,6 +11,7 @@
       </style>
 </head>
 <body>
+<p>
 <h1>
 <font color="steelblue"> ${user.getFirstName()} ${user.getLastName()}</font>
 </h1>
@@ -34,6 +36,19 @@ bgcolor="#e0e0e0" >
 <p>${user.getJob()}</p>
 </td>
 </tr>
+</p>
+<p>
+<c:if  test="${isFriend=='false'}">
+   <form action="otheruser?id_otheruser=${user.getID()}" method="Post" >
+           <input type="submit" class="button" value="Add to friends"/>
+               </form>
+</c:if>
+<c:if test="${isFriend=='true'}">
+   <form action="otheruser?remove_otheruser=${user.getID()}" method="Post" >
+           <input type="submit" class="button" value="Remove from friends"/>
+               </form>
+</c:if>
 
+</p>
 </body>
 </html>

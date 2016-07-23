@@ -99,7 +99,7 @@ public class PersonDAO {
         return false;
     }
 
-    public Person getUser(String ID) {
+    public Person getUser(int ID) {
         Person user = null;
         try(Connection connection = ds.getConnection()) {
             Statement statement = connection.createStatement();

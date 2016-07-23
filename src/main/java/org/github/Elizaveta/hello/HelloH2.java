@@ -73,16 +73,9 @@ public class HelloH2 {
 */
 
 
-       /* String insItem = "INSERT INTO passwords (ID, password) VALUES (1,12345);" +
-                "INSERT INTO passwords (ID, password) VALUES (2,12345);" +
-                "INSERT INTO passwords (ID, password) VALUES (3,12345);" +
-                "INSERT INTO passwords (ID, password) VALUES (4,12345);" +
-                "INSERT INTO passwords (ID, password) VALUES (5,12345);" +
-                "INSERT INTO passwords (ID, password) VALUES (6,12345);" +
-                "INSERT INTO passwords (ID, password) VALUES (7,12345);" +
-                "INSERT INTO passwords (ID, password) VALUES (8,12345);";
-        statement.executeUpdate(insItem);
-*/
+        /*String insItem = "CREATE TABLE friendship (ID bigint, ID_otheruser bigint)";
+        statement.executeUpdate(insItem);*/
+
         resultSet = statement.executeQuery("SELECT * FROM passwords;");
 
 

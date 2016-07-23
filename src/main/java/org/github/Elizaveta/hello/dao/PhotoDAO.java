@@ -47,7 +47,7 @@ public class PhotoDAO {
         }
     }
 
-    public String getAvatar(String ID){
+    public String getAvatar(int ID){
         String image;
         try (Connection connection = ds.getConnection()){
             Statement statement = connection.createStatement();
@@ -63,13 +63,13 @@ public class PhotoDAO {
         return image;
         }
 
-    public Map<String,String> getAllAvatar(){
-        Map<String,String> avatars = new HashMap<>();
+    public Map<Integer,String> getAllAvatar(){
+        Map<Integer,String> avatars = new HashMap<>();
         try(Connection connection = ds.getConnection()){
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT photo_name, ID FROM PHOTOS");
             while (resultSet.next()){
-                avatars.put(resultSet.getString("ID"), resultSet.getString("photo_name"));
+                avatars.put(resultSet.getInt("ID"), resultSet.getString("photo_name"));
             }
             }catch (SQLException e){
             throw new RuntimeException(e);
