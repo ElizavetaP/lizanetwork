@@ -14,11 +14,13 @@ import java.io.IOException;
 public class FriendList extends HttpServlet {
     PersonDAO personDAO = null;
     PhotoDAO photoDAO = null;
+    FriendshipDAO friendshipDAO=null;
 
     public FriendList() {
         super();
         personDAO = new PersonDAO();
         photoDAO = new PhotoDAO();
+        friendshipDAO = new FriendshipDAO();
     }
 
     @Override
@@ -36,6 +38,17 @@ public class FriendList extends HttpServlet {
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doDelete(req, resp);
+        HttpSession httpSession = req.getSession();
+        String ID_otheruser = req.getParameter("id");
+        if(ID_otheruser!=null) {
+            int ID = Integer.parseInt(ID_otheruser);
+            friendshipDAO.removeFriend(ID, Integer.parseInt((String)httpSession.getAttribute("ID")));
+            req.setAttribute("user", personDAO.getUser(ID));
+            req.setAttribute("image", photoDAO.getAvatar(ID));
+            req.setAttribute("isFriend", friendshipDAO.isFriend(ID,Integer.parseInt((String) httpSession.getAttribute("ID"))));
+
+        }
+        req.getRequestDispatcher("friendlist.jsp").forward(req, resp);
+
     }
 }

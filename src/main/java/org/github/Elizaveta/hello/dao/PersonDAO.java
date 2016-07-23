@@ -199,15 +199,18 @@ public class PersonDAO {
         List<Friendship> friendship = friendshipDAO.getFriendship(ID);
         String id = "";
         for (int i = 0; i < friendship.size(); i++) {
-            id+= friendship.get(i).getID_otheruser();
+            if (i<friendship.size()-1){
+            id+= friendship.get(i).getID_otheruser() + ", ";
+            }
+            else {
+                id+= friendship.get(i).getID_otheruser();
+            }
         }
         List<Person> friends = new ArrayList<>();
         try(Connection connection = ds.getConnection()) {
-            String insItem = "SELECT * FROM USERS where ID in (?);";
-            PreparedStatement prepareStatement = connection.prepareStatement(insItem);
-            prepareStatement.setString(1, id);
-            ResultSet resultSet = prepareStatement.executeQuery();
-            if (resultSet.next()) {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM USERS where ID in ("+id+");");
+            while (resultSet.next()) {
                friends.add(new Person(resultSet.getString("FirstName"),resultSet.getString("LastName"),
                         resultSet.getString("email"),resultSet.getInt("ID"),resultSet.getString("sex"),
                         resultSet.getString("country"), resultSet.getString("town"),

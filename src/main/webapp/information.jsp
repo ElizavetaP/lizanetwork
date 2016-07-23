@@ -64,6 +64,6 @@
      <td></td>
      <td><input type="submit" value="Edit"></td>
     </tr>
-
+</table>
 </body>
 </html>

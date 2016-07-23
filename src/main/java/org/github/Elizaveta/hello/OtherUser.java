@@ -53,7 +53,6 @@ public class OtherUser extends HttpServlet {
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession httpSession = req.getSession();
-        System.out.println("ffffffffffffff");
         String ID_otheruser = req.getParameter("id");
         if(ID_otheruser!=null) {
             int ID = Integer.parseInt(ID_otheruser);
