@@ -73,16 +73,17 @@ public class HelloH2 {
 */
 
 
-        /*String insItem = "CREATE TABLE friendship (ID bigint, ID_otheruser bigint)";
-        statement.executeUpdate(insItem);*/
+        //String insItem = "CREATE TABLE messages (ID_message bigint, ID_sender bigint, ID_recipient bigint, date DATE)";
+        String insItem = "ALTER TABLE messages add column type varchar(4);";
+        statement.executeUpdate(insItem);
 
-        resultSet = statement.executeQuery("SELECT * FROM friendship;");
+        resultSet = statement.executeQuery("SELECT * FROM messages;");
 
 
         System.out.println(resultSet);
-        while (resultSet.next()) {
+       /* while (resultSet.next()) {
             System.out.println(resultSet.getString(1) + " " + resultSet.getString(2));
-        }
+        }*/
 
 
         resultSet.close();

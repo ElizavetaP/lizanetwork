@@ -132,12 +132,12 @@ public class PersonDAO {
         }
     }
 
-    public void editUser(String ID, String firstname, String lastname, String sex,
+    public void editUser(int ID, String firstname, String lastname, String sex,
                             String country, String town, String birthday,
                             String education, String job, String email) {
         try(Connection connection = ds.getConnection()) {
             String insItem = "update USERS set FirstName = ?, LastName= ?, sex = ?, country = ?" +
-                    ", town = ?, birthday = ?, education =?, job = ?,email = ? where ID = " + ID + ";";
+                    ", town = ?, birthday = ?, education =?, job = ?,email = ? where ID = ?;";
             PreparedStatement prepareStatement = connection.prepareStatement(insItem);
             prepareStatement.setString(1, firstname);
             prepareStatement.setString(2, lastname);
@@ -148,6 +148,7 @@ public class PersonDAO {
             prepareStatement.setString(7, education);
             prepareStatement.setString(8, job);
             prepareStatement.setString(9, email);
+            prepareStatement.setInt(10, ID);
             prepareStatement.executeUpdate();
         }catch (SQLException e) {
             throw new RuntimeException(e);

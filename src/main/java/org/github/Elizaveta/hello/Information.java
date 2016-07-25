@@ -38,7 +38,7 @@ public class Information extends HttpServlet {
 
         HttpSession httpSession = req.getSession();
 
-        personDAO.editUser((String) httpSession.getAttribute("ID"), newfirstname,
+        personDAO.editUser(Integer.parseInt((String) httpSession.getAttribute("ID")), newfirstname,
                 newlastname, newsex, newcountry, newtown, newbirthday, neweducation, newjob, newemail);
 
         resp.sendRedirect("user");
