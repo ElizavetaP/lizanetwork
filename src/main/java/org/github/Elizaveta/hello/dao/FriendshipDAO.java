@@ -23,23 +23,23 @@ public class FriendshipDAO {
 
     }
 
-    public void addFriend(int ID_otheruser, int ID) {
+    public void addFriend(int otherUserID, int ID) {
         try (Connection connection = ds.getConnection()) {
             String insItem = "INSERT INTO friendship (ID, ID_otheruser) VALUES (?,?);";
             PreparedStatement prepareStatement = connection.prepareStatement(insItem);
             prepareStatement.setInt(1, ID);
-            prepareStatement.setInt(2, ID_otheruser);
+            prepareStatement.setInt(2, otherUserID);
             prepareStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
-    public boolean isFriend(int ID_otheruser, int ID){
+    public boolean isFriend(int otherUserID, int ID){
         try (Connection connection = ds.getConnection()) {
             String insItem = "Select ID, ID_otheruser from friendship where ID = ? and ID_otheruser = ?;";
             PreparedStatement prepareStatement = connection.prepareStatement(insItem);
             prepareStatement.setInt(1, ID);
-            prepareStatement.setInt(2, ID_otheruser);
+            prepareStatement.setInt(2, otherUserID);
             ResultSet resultSet = prepareStatement.executeQuery();
             if(resultSet.next()){
                 return true;
@@ -51,12 +51,12 @@ public class FriendshipDAO {
         }
     }
 
-    public void removeFriend(int ID_otheruser, int ID) {
+    public void removeFriend(int otherUserID, int ID) {
         try (Connection connection = ds.getConnection()) {
             String insItem = "delete from friendship where ID = ? and ID_otheruser = ?;";
             PreparedStatement prepareStatement = connection.prepareStatement(insItem);
             prepareStatement.setInt(1, ID);
-            prepareStatement.setInt(2, ID_otheruser);
+            prepareStatement.setInt(2, otherUserID);
             prepareStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);

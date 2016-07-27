@@ -13,10 +13,10 @@ public class Person {
     private String education;
     private String job;
     private Date birthday;
-    private int photo_id;
+    private int photoID;
 
     public Person(String firstName, String lastName, String email, int ID, String sex, String country,
-                  String town, String education, String job, Date birthday, int photo_id) {
+                  String town, String education, String job, Date birthday, int photoID) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -27,7 +27,7 @@ public class Person {
         this.education = education;
         this.job = job;
         this.birthday = birthday;
-        this.photo_id = photo_id;
+        this.photoID = photoID;
     }
 
     public String getFirstName() {
@@ -70,7 +70,7 @@ public class Person {
         return birthday;
     }
 
-    public int getPhoto_id() {
-        return photo_id;
+    public int getPhotoID() {
+        return photoID;
     }
 }

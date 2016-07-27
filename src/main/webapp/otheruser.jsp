@@ -41,25 +41,39 @@ bgcolor="#e0e0e0" >
 
 
 <table width="100%" align="center">
-<tr >
-<p>
-<c:if  test="${isFriend=='false'}">
-   <form action="otheruser?id=${user.getID()}" method="Post" >
-           <input type="submit" class="button" value="Add to friends"/>
-               </form>
-</c:if>
-<c:if test="${isFriend=='true'}">
-   <form action="otheruser?id=${user.getID()}" method="Delete" >
-           <input type="submit" class="button" value="Remove from friends"/>
-               </form>
-</c:if>
-</p>
-</td>
+<tr>
+    <table width="100%">
+    <tr>
+        <p>
+        <c:if  test="${isFriend=='false'}">
+           <form action="otheruser" method="Post" >
+                   <input type="text" value="add" name = "action" hidden="true" />
+                   <input type="text" value="${user.getID()}" name = "id" hidden="true" />
+                   <input type="submit" class="button" value="Add to friends"/>
+           </form>
+        </c:if>
+        <c:if test="${isFriend=='true'}">
+           <form action="otheruser" method="Post" >
+                   <input type="text" value="remove" name = "action" hidden="true" />
+                   <input type="text" value="${user.getID()}" name = "id" hidden="true" />
+                   <input type="submit" class="button" value="Remove from friends"/>
+           </form>
+        </c:if>
+        </p>
+    </tr>
+    <tr>
 
+         <form action="user/chat?id=${user.getID()}" method="Get" >
+         <input type="submit" class="button" value="Write a message"/>
+         </form>
 
-<td align="right"  valign="top">
+    </tr>
 
-</td>
+    </table>
+
+    <td align="right"  valign="top">
+
+    </td>
 
 </tr>
 </table>

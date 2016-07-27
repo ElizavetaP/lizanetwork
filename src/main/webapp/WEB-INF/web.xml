@@ -36,6 +36,10 @@
         <servlet-name>friendlist</servlet-name>
         <servlet-class>org.github.Elizaveta.hello.FriendList</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>chat</servlet-name>
+        <servlet-class>org.github.Elizaveta.hello.Chat</servlet-class>
+    </servlet>
 
     <filter-mapping>
         <filter-name>filter</filter-name>
@@ -71,6 +75,10 @@
     <servlet-mapping>
         <servlet-name>friendlist</servlet-name>
         <url-pattern>/friendlist</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>chat</servlet-name>
+        <url-pattern>/user/chat</url-pattern>
     </servlet-mapping>
 
     <resource-ref>

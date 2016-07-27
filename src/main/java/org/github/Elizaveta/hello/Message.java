@@ -1,36 +1,36 @@
 package org.github.Elizaveta.hello;
 
 public class Message {
-    private long ID_sender;
-    private long ID_recipient;
+    private int senderID;
+    private int recipientID;
     private String date;
-    private long ID_message;
+    private long messageID;
     private String type;
     private String text;
 
-    public Message(long ID_sender, long ID_recipient, String date, long ID_message, String type, String text) {
-        this.ID_sender = ID_sender;
-        this.ID_recipient = ID_recipient;
+    public Message(int senderID, int recipientID, String date, long messageID, String type, String text) {
+        this.senderID = senderID;
+        this.recipientID = recipientID;
         this.date = date;
-        this.ID_message = ID_message;
+        this.messageID = messageID;
         this.type = type;
         this.text = text;
     }
 
-    public long getID_sender() {
-        return ID_sender;
+    public int getSenderID() {
+        return senderID;
     }
 
-    public long getID_recipient() {
-        return ID_recipient;
+    public int getRecipientID() {
+        return recipientID;
     }
 
     public String getDate() {
         return date;
     }
 
-    public long getID_message() {
-        return ID_message;
+    public long getMessageID() {
+        return messageID;
     }
 
     public String getType() {

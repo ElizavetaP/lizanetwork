@@ -1,40 +1,40 @@
 package org.github.Elizaveta.hello;
 
 public class Photo {
-    private int photo_id;
-    private int album_id;
-    private String photo_name;
+    private int photoID;
+    private int albumID;
+    private String photoName;
     private int ID;
 
-    public Photo(int photo_id, int album_id, String photo_name, int ID) {
-        this.photo_id = photo_id;
-        this.album_id = album_id;
-        this.photo_name = photo_name;
+    public Photo(int photoID, int albumID, String photoName, int ID) {
+        this.photoID = photoID;
+        this.albumID = albumID;
+        this.photoName = photoName;
         this.ID = ID;
     }
 
-    public int getPhoto_id() {
-        return photo_id;
+    public int getPhotoID() {
+        return photoID;
     }
 
-    public void setPhoto_id(int photo_id) {
-        this.photo_id = photo_id;
+    public void setPhotoID(int photoID) {
+        this.photoID = photoID;
     }
 
-    public int getAlbum_id() {
-        return album_id;
+    public int getAlbumID() {
+        return albumID;
     }
 
-    public void setAlbum_id(int album_id) {
-        this.album_id = album_id;
+    public void setAlbumID(int albumID) {
+        this.albumID = albumID;
     }
 
-    public String getPhoto_name() {
-        return photo_name;
+    public String getPhotoName() {
+        return photoName;
     }
 
-    public void setPhoto_name(String photo_name) {
-        this.photo_name = photo_name;
+    public void setPhotoName(String photoName) {
+        this.photoName = photoName;
     }
 
     public int getID() {
@@ -52,18 +52,18 @@ public class Photo {
 
         Photo photo = (Photo) o;
 
-        if (photo_id != photo.photo_id) return false;
-        if (album_id != photo.album_id) return false;
+        if (photoID != photo.photoID) return false;
+        if (albumID != photo.albumID) return false;
         if (ID != photo.ID) return false;
-        return photo_name != null ? photo_name.equals(photo.photo_name) : photo.photo_name == null;
+        return photoName != null ? photoName.equals(photo.photoName) : photo.photoName == null;
 
     }
 
     @Override
     public int hashCode() {
-        int result = photo_id;
-        result = 31 * result + album_id;
-        result = 31 * result + (photo_name != null ? photo_name.hashCode() : 0);
+        int result = photoID;
+        result = 31 * result + albumID;
+        result = 31 * result + (photoName != null ? photoName.hashCode() : 0);
         result = 31 * result + ID;
         return result;
     }

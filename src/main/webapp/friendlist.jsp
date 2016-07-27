@@ -22,8 +22,9 @@ Friend list</font></h2>
                 </td>
                 <td align="left">${friend.getFirstName()} ${friend.getLastName()}</td>
                 <td>
-                <form action="friendlist?id=${user.getID()}" method="Delete" >
-                       <input type="submit" class="button" value="Remove from friends"/>
+                <form action="friendlist" method="Post" >
+                    <input type="text" value="${friend.getID()}" name = "id" hidden="true" />
+                    <input type="submit" class="button" value="Remove from friends"/>
                 </form>
                 </td>
 

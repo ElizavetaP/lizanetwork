@@ -14,7 +14,7 @@ import java.io.IOException;
 public class FriendList extends HttpServlet {
     PersonDAO personDAO = null;
     PhotoDAO photoDAO = null;
-    FriendshipDAO friendshipDAO=null;
+    FriendshipDAO friendshipDAO = null;
 
     public FriendList() {
         super();
@@ -33,22 +33,13 @@ public class FriendList extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
-    }
-
-    @Override
-    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession httpSession = req.getSession();
-        String ID_otheruser = req.getParameter("id");
-        if(ID_otheruser!=null) {
-            int ID = Integer.parseInt(ID_otheruser);
-            friendshipDAO.removeFriend(ID, Integer.parseInt((String)httpSession.getAttribute("ID")));
-            req.setAttribute("user", personDAO.getUser(ID));
-            req.setAttribute("image", photoDAO.getAvatar(ID));
-            req.setAttribute("isFriend", friendshipDAO.isFriend(ID,Integer.parseInt((String) httpSession.getAttribute("ID"))));
-
-        }
+        int ID = Integer.parseInt(req.getParameter("id"));
+        friendshipDAO.removeFriend(ID, Integer.parseInt((String) httpSession.getAttribute("ID")));
+        req.setAttribute("friends", personDAO.getFriends(Integer.parseInt((String) httpSession.getAttribute("ID"))));
+        req.setAttribute("photos", photoDAO.getAllAvatar());
         req.getRequestDispatcher("friendlist.jsp").forward(req, resp);
+
 
     }
 }

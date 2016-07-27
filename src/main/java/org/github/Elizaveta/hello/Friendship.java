@@ -4,9 +4,9 @@ public class Friendship {
     private Integer ID;
     private Integer ID_otheruser;
 
-    public Friendship(Integer ID, Integer ID_otheruser) {
+    public Friendship(Integer ID, Integer otherUserID) {
         this.ID = ID;
-        this.ID_otheruser = ID_otheruser;
+        this.ID_otheruser = otherUserID;
     }
 
     public Integer getID() {

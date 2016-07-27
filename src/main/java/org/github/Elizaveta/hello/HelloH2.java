@@ -2,6 +2,8 @@ package org.github.Elizaveta.hello;
 
 import java.sql.*;
 import java.util.Map;
+import java.util.Date;
+import java.util.Scanner;
 
 public class HelloH2 {
     public static void main(String[] args) throws Exception {
@@ -74,21 +76,22 @@ public class HelloH2 {
 
 
         //String insItem = "CREATE TABLE messages (ID_message bigint, ID_sender bigint, ID_recipient bigint, date DATE)";
-        String insItem = "ALTER TABLE messages add column type varchar(4);";
-        statement.executeUpdate(insItem);
+        /*String insItem = "ALTER TABLE messages add column type varchar(4);";
+        statement.executeUpdate(insItem);*/
 
         resultSet = statement.executeQuery("SELECT * FROM messages;");
 
 
         System.out.println(resultSet);
-       /* while (resultSet.next()) {
-            System.out.println(resultSet.getString(1) + " " + resultSet.getString(2));
-        }*/
+        while (resultSet.next()) {
+            System.out.println(resultSet.getString("type") + " " + resultSet.getString("message"));
+        }
 
 
-        resultSet.close();
+       // resultSet.close();
         statement.close();
         connection.close();
+
     }
 
     private static Connection getH2Connection() throws SQLException {

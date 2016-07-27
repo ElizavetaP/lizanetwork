@@ -37,10 +37,15 @@ public class OtherUser extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession httpSession = req.getSession();
-        String ID_otheruser = req.getParameter("id");
-        if(ID_otheruser!=null) {
-            int ID = Integer.parseInt(ID_otheruser);
-            friendshipDAO.addFriend(ID, Integer.parseInt((String) httpSession.getAttribute("ID")));
+        String action = req.getParameter("action");
+        String otherUserID = req.getParameter("id");
+        if(otherUserID!=null) {
+            int ID = Integer.parseInt(otherUserID);
+            if(action.equals("add")) {
+                friendshipDAO.addFriend(ID, Integer.parseInt((String) httpSession.getAttribute("ID")));
+            }else {
+                friendshipDAO.removeFriend(ID, Integer.parseInt((String)httpSession.getAttribute("ID")));
+            }
             req.setAttribute("user", personDAO.getUser(ID));
             req.setAttribute("image", photoDAO.getAvatar(ID));
             req.setAttribute("isFriend", friendshipDAO.isFriend(ID,Integer.parseInt((String) httpSession.getAttribute("ID"))));
@@ -49,21 +54,4 @@ public class OtherUser extends HttpServlet {
 
         req.getRequestDispatcher("otheruser.jsp").forward(req, resp);
     }
-
-    @Override
-    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HttpSession httpSession = req.getSession();
-        String ID_otheruser = req.getParameter("id");
-        if(ID_otheruser!=null) {
-            int ID = Integer.parseInt(ID_otheruser);
-            friendshipDAO.removeFriend(ID, Integer.parseInt((String)httpSession.getAttribute("ID")));
-            req.setAttribute("user", personDAO.getUser(ID));
-            req.setAttribute("image", photoDAO.getAvatar(ID));
-            req.setAttribute("isFriend", friendshipDAO.isFriend(ID,Integer.parseInt((String) httpSession.getAttribute("ID"))));
-
-        }
-        req.getRequestDispatcher("otheruser.jsp").forward(req, resp);
-
-    }
-
 }

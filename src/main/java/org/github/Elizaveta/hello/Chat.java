@@ -26,19 +26,24 @@ public class Chat extends HttpServlet{
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession httpSession = req.getSession();
-        String ID_otheruser = req.getParameter("id");
-        if(ID_otheruser==null){
-            resp.sendRedirect("/");
+        String otherUserID = req.getParameter("id");
+        if(otherUserID==null){
+            resp.sendRedirect("/user");
         }else {
-            Long ID = Long.parseLong(ID_otheruser);
+            int ID = Integer.parseInt(otherUserID);
+            req.setAttribute("id",ID);
             req.setAttribute("photos", photoDAO.getAllAvatar());
-            req.setAttribute("messages", messageDAO.getMessage("chat", Long.parseLong((String) httpSession.getAttribute("ID")),ID));
+            req.setAttribute("messages", messageDAO.getMessage("chat", Integer.parseInt((String) httpSession.getAttribute("ID")),ID));
             req.getRequestDispatcher("chat.jsp").forward(req, resp);
         }
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
+        HttpSession httpSession = req.getSession();
+        int otherUserID = Integer.parseInt(req.getParameter("id"));
+        String text= req.getParameter("text");
+        messageDAO.sendMessage(text,Integer.parseInt((String)httpSession.getAttribute("ID")),otherUserID,"chat");
+        resp.sendRedirect("/user/chat?id="+otherUserID);
     }
 }
