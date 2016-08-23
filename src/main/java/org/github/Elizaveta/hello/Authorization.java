@@ -12,7 +12,8 @@ import java.io.IOException;
 
 public class Authorization extends HttpServlet {
     private static final Logger LOG = Logger.getLogger(Authorization.class);
-    PersonDAO personDAO = null;
+    PersonDAO personDAO;
+    public static final String ID = "id";
 
     public Authorization() {
         super();
@@ -21,7 +22,7 @@ public class Authorization extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HttpSession httpSession = req.getSession();
+        HttpSession httpSession = req.getSession(true);
         String logout = req.getParameter("logout");
         if (logout != null) httpSession.setAttribute("isLogged", null);
         req.getRequestDispatcher("authorization.jsp").forward(req, resp);
@@ -31,17 +32,16 @@ public class Authorization extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        String logemail = req.getParameter("logemail");
-        String logpassword = req.getParameter("logpassword");
-        boolean isLogged = personDAO.login(logpassword, logemail);
+        String email = req.getParameter("logemail");
+        String password = req.getParameter("logpassword");
+        boolean isLogged = personDAO.login(password, email);
         LOG.debug("authorization is " + isLogged);
 
         HttpSession httpSession = req.getSession();
         if (isLogged) {
-            String ID;
-            ID = personDAO.getID(logemail);
+            int id = personDAO.getID(email);
             httpSession.setAttribute("isLogged", "Logged");
-            httpSession.setAttribute("ID", ID);
+            httpSession.setAttribute("id", id);
             resp.sendRedirect("user");
         } else {
             req.setAttribute("errormessage", "Incorrect email or password");

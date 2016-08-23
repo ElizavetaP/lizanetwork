@@ -39,10 +39,9 @@ public class Registration extends HttpServlet {
             req.setAttribute("errormessage", "User with that email already exists");
             req.getRequestDispatcher("registration.jsp").forward(req, resp);
         } else {
-            String ID;
-            ID = personDAO.getID(newemail);
+            int id = personDAO.getID(newemail);
             PhotoDAO photoDAO = new PhotoDAO();
-            photoDAO.setAvatar(ID, "qwerty");
+            photoDAO.setAvatar(id, "qwerty");
 
             req.setAttribute("answermessage", "Successful registration. Please log in");
             req.getRequestDispatcher("registration.jsp").forward(req, resp);

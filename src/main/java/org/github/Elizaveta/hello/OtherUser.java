@@ -9,9 +9,9 @@ import javax.servlet.http.*;
 import java.io.IOException;
 
 public class OtherUser extends HttpServlet {
-    PersonDAO personDAO = null;
-    PhotoDAO photoDAO = null;
-    FriendshipDAO friendshipDAO = null;
+    PersonDAO personDAO;
+    PhotoDAO photoDAO;
+    FriendshipDAO friendshipDAO;
 
     public OtherUser() {
         super();
@@ -23,35 +23,24 @@ public class OtherUser extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession httpSession = req.getSession();
-        String ID_otheruser = req.getParameter("id");
-        if (ID_otheruser == null){
-            resp.sendRedirect("/");
-        }else {
-            int ID = Integer.parseInt(ID_otheruser);
-            req.setAttribute("user", personDAO.getUser(ID));
-            req.setAttribute("image", photoDAO.getAvatar(ID));
-            req.setAttribute("isFriend", friendshipDAO.isFriend(ID,Integer.parseInt((String) httpSession.getAttribute("ID"))));
-            req.getRequestDispatcher("otheruser.jsp").forward(req, resp);
-        }
+        int otherUserID = Integer.parseInt(req.getParameter("id"));
+        req.setAttribute("user", personDAO.getUser(otherUserID));
+        req.setAttribute("image", photoDAO.getAvatar(otherUserID));
+        req.setAttribute("isFriend", friendshipDAO.isFriend(otherUserID, Integer.parseInt((String) httpSession.getAttribute("ID"))));
+        req.getRequestDispatcher("otheruser.jsp").forward(req, resp);
+
     }
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession httpSession = req.getSession();
         String action = req.getParameter("action");
-        String otherUserID = req.getParameter("id");
-        if(otherUserID!=null) {
-            int ID = Integer.parseInt(otherUserID);
-            if(action.equals("add")) {
-                friendshipDAO.addFriend(ID, Integer.parseInt((String) httpSession.getAttribute("ID")));
-            }else {
-                friendshipDAO.removeFriend(ID, Integer.parseInt((String)httpSession.getAttribute("ID")));
-            }
-            req.setAttribute("user", personDAO.getUser(ID));
-            req.setAttribute("image", photoDAO.getAvatar(ID));
-            req.setAttribute("isFriend", friendshipDAO.isFriend(ID,Integer.parseInt((String) httpSession.getAttribute("ID"))));
-
+        int otherUserID = Integer.parseInt(req.getParameter("id"));
+        if (action.equals("add")) {
+            friendshipDAO.addFriend(otherUserID,(Integer)httpSession.getAttribute("ID"));
+        } else {
+            friendshipDAO.removeFriend(otherUserID,(Integer)httpSession.getAttribute("ID"));
         }
-
-        req.getRequestDispatcher("otheruser.jsp").forward(req, resp);
+        resp.sendRedirect("/otheruser?id=" + otherUserID);
     }
 }

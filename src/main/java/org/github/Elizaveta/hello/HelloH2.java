@@ -1,9 +1,8 @@
 package org.github.Elizaveta.hello;
 
 import java.sql.*;
-import java.util.Map;
+import java.util.*;
 import java.util.Date;
-import java.util.Scanner;
 
 public class HelloH2 {
     public static void main(String[] args) throws Exception {
@@ -22,20 +21,8 @@ public class HelloH2 {
         String createTable2 = "CREATE TABLE ALBUM (album_id bigint, album_name varchar(50)," +
                 "description varchar(50), ID bigint);";
         statement.executeUpdate(createTable2);*/
-        /*String insItem = "ALTER TABLE USERS add column birthday date;"+
-                "ALTER TABLE USERS add column education varchar(50);"+
-                "ALTER TABLE USERS add column job varchar(50);";
-               *//* "INSERT INTO USERS (FirstName, LastName) VALUES ('Liza','Popugaeva');" +
-                "INSERT INTO USERS (FirstName, LastName) VALUES ('Sergey','Volkov');" +
-                "INSERT INTO USERS (FirstName, LastName) VALUES ('Ostap','Bender');";*//*
-       *//* String insItem = "drop table USERS;"+
-                "create table USERS(ID bigint auto_increment, FirstName varchar(20), LastName varchar(20)," +
-                " country varchar(30), town varchar(30), sex varchar(7), email varchar(40), photo_id bigint, " +
-                "password varchar(40));"+
-                "INSERT INTO USERS (FirstName, LastName,country,email,password) VALUES ('Liza','Popugaeva'," +
-                "'Russia','qwerty@bk.ru','123');"+
-                "INSERT INTO USERS (FirstName, LastName,country,email,password) VALUES ('Sergey','Volkov'," +
-                "'Russia','qwerty123@bk.ru','123');";*//*
+       /* String insItem = *//*"ALTER TABLE USERS add column password varchar(20);"+*//*
+                "drop table passwords;";
         statement.executeUpdate(insItem);*/
 
        /* String insItem4 ="INSERT INTO USERS (FirstName, LastName, password) VALUES (?,?,?);";
@@ -79,12 +66,12 @@ public class HelloH2 {
         /*String insItem = "ALTER TABLE messages add column type varchar(4);";
         statement.executeUpdate(insItem);*/
 
-        resultSet = statement.executeQuery("SELECT * FROM messages;");
+        resultSet = statement.executeQuery("SELECT * FROM users;");
 
 
         System.out.println(resultSet);
         while (resultSet.next()) {
-            System.out.println(resultSet.getString("type") + " " + resultSet.getString("message"));
+            System.out.println(resultSet.getString("FirstName") + " " + resultSet.getString("password"));
         }
 
 
@@ -93,6 +80,7 @@ public class HelloH2 {
         connection.close();
 
     }
+
 
     private static Connection getH2Connection() throws SQLException {
         return DriverManager.getConnection("jdbc:h2:~/git/hellow/src/main/java/org/github/Elizaveta/hello/helloh2db","sa","");

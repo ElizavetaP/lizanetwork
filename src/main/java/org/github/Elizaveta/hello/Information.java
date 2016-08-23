@@ -10,7 +10,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 public class Information extends HttpServlet {
-    PersonDAO personDAO = null;
+    PersonDAO personDAO;
 
     public Information() {
         super();
@@ -37,8 +37,7 @@ public class Information extends HttpServlet {
         String newemail = req.getParameter("newemail");
 
         HttpSession httpSession = req.getSession();
-
-        personDAO.editUser(Integer.parseInt((String) httpSession.getAttribute("ID")), newfirstname,
+        personDAO.editUser((Integer)httpSession.getAttribute(Authorization.ID), newfirstname,
                 newlastname, newsex, newcountry, newtown, newbirthday, neweducation, newjob, newemail);
 
         resp.sendRedirect("user");

@@ -10,7 +10,7 @@
     </filter>
     <servlet>
         <servlet-name>hello</servlet-name>
-        <servlet-class>org.github.Elizaveta.hello.Hello</servlet-class>
+        <servlet-class>org.github.Elizaveta.hello.Main</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>registration</servlet-name>
@@ -78,7 +78,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>chat</servlet-name>
-        <url-pattern>/user/chat</url-pattern>
+        <url-pattern>/chat</url-pattern>
     </servlet-mapping>
 
     <resource-ref>

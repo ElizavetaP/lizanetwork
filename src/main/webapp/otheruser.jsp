@@ -63,7 +63,8 @@ bgcolor="#e0e0e0" >
     </tr>
     <tr>
 
-         <form action="user/chat?id=${user.getID()}" method="Get" >
+         <form action="/chat" method="Get" >
+         <input type="text" value="${user.getID()}" name = "id" hidden="true" />
          <input type="submit" class="button" value="Write a message"/>
          </form>
 
@@ -72,6 +73,21 @@ bgcolor="#e0e0e0" >
     </table>
 
     <td align="right"  valign="top">
+
+    <table align="center" style="width: 50%; word-wrap: break-word;table-layout: fixed;">
+    <tr>
+        <td/>
+        <td colspan="2" >
+        <br>
+        <p><font color = "grey"> Your message<Br></font><p/>
+        <form action="otheruser" method="Post">
+                <input type="text" value="${user.getID()}" name = "id" hidden="true" />
+               <textarea name="text" cols="40" ></textarea>
+        <p><input type="submit" value="Send"/><p/>
+        </td>
+        </form>
+    </tr>
+    </table>
 
     </td>
 

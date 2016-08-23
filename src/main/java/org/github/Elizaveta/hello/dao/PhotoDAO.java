@@ -5,10 +5,7 @@ import org.github.Elizaveta.hello.Photo;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,28 +16,26 @@ public class PhotoDAO {
 
     public PhotoDAO() {
         super();
-        try {
-            InitialContext initContext= new InitialContext();
-            ds = (DataSource) initContext.lookup("java:comp/env/jdbc_empDS");
-        } catch (NamingException e) {
-            throw new RuntimeException(e);
-        }
-
+        ds = DataSourceUtils.getDataSource();
     }
 
-    public void setAvatar(String ID, String avatarname){
+    public void setAvatar(int id, String avatarname){
 
         try (Connection connection = ds.getConnection()){
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM PHOTOS where ID ="+ID +";");
+            PreparedStatement prepareStatement = connection.prepareStatement("SELECT * FROM PHOTOS where ID = ?;");
+            prepareStatement.setInt(1, id);
+            ResultSet resultSet = prepareStatement.executeQuery();
             if(resultSet.next()){
-                String insItem ="update PHOTOS set photo_name = '" +avatarname+"' " +
-                        "where ID = "+ID+" and album_id is null;";
-                statement.executeUpdate(insItem);
+                String insItem ="update PHOTOS set photo_name = '?' " +
+                        "where ID = ? and album_id is null;";
+                prepareStatement.setString(1, avatarname);
+                prepareStatement.setString(2, insItem);
+                prepareStatement.executeUpdate();
             }else {
-                String insItem = "INSERT INTO PHOTOS (album_id, photo_name, ID) VALUES (NULL,'" +
-                        avatarname +"', " + ID + ");";
-                statement.executeUpdate(insItem);
+                String insItem = "INSERT INTO PHOTOS (album_id, photo_name, ID) VALUES (NULL,'?', ?);";
+                prepareStatement.setString(1, avatarname);
+                prepareStatement.setString(2, insItem);
+                prepareStatement.executeUpdate();
             }
         }catch (SQLException e) {
             throw new RuntimeException(e);

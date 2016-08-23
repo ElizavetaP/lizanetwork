@@ -18,13 +18,7 @@ public class MessageDAO {
 
     public MessageDAO() {
         super();
-        try {
-            InitialContext initContext= new InitialContext();
-            ds = (DataSource) initContext.lookup("java:comp/env/jdbc_empDS");
-        } catch (NamingException e) {
-            throw new RuntimeException(e);
-        }
-
+        ds = DataSourceUtils.getDataSource();
     }
 
     public void sendMessage(String text, int senderID, int recipientID, String type){

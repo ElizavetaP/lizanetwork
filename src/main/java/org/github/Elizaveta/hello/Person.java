@@ -6,7 +6,7 @@ public class Person {
     private String firstName;
     private String lastName;
     private String email;
-    private int ID;
+    private int id;
     private String sex;
     private String country;
     private String town;
@@ -15,12 +15,12 @@ public class Person {
     private Date birthday;
     private int photoID;
 
-    public Person(String firstName, String lastName, String email, int ID, String sex, String country,
+    public Person(String firstName, String lastName, String email, int id, String sex, String country,
                   String town, String education, String job, Date birthday, int photoID) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.ID = ID;
+        this.id = id;
         this.sex = sex;
         this.country = country;
         this.town = town;
@@ -42,8 +42,8 @@ public class Person {
         return email;
     }
 
-    public int getID() {
-        return ID;
+    public int getId() {
+        return id;
     }
 
     public String getSex() {

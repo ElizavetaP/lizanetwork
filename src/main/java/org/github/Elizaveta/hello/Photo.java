@@ -4,13 +4,13 @@ public class Photo {
     private int photoID;
     private int albumID;
     private String photoName;
-    private int ID;
+    private int id;
 
-    public Photo(int photoID, int albumID, String photoName, int ID) {
+    public Photo(int photoID, int albumID, String photoName, int id) {
         this.photoID = photoID;
         this.albumID = albumID;
         this.photoName = photoName;
-        this.ID = ID;
+        this.id = id;
     }
 
     public int getPhotoID() {
@@ -37,12 +37,12 @@ public class Photo {
         this.photoName = photoName;
     }
 
-    public int getID() {
-        return ID;
+    public int getId() {
+        return id;
     }
 
-    public void setID(int ID) {
-        this.ID = ID;
+    public void setId(int id) {
+        this.id = id;
     }
 
     @Override
@@ -54,7 +54,7 @@ public class Photo {
 
         if (photoID != photo.photoID) return false;
         if (albumID != photo.albumID) return false;
-        if (ID != photo.ID) return false;
+        if (id != photo.id) return false;
         return photoName != null ? photoName.equals(photo.photoName) : photo.photoName == null;
 
     }
@@ -64,7 +64,7 @@ public class Photo {
         int result = photoID;
         result = 31 * result + albumID;
         result = 31 * result + (photoName != null ? photoName.hashCode() : 0);
-        result = 31 * result + ID;
+        result = 31 * result + id;
         return result;
     }
 }

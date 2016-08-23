@@ -1,11 +1,45 @@
+<%@ include file="head.jsp" %>
+
 <%@ taglib prefix="c"
 uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ include file="head.jsp" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+
+
+
 <html>
 <head>
-    <title>Devcolibri.com</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<fmt:setLocale value="${sessionScope.local}" />
+
+<fmt:setBundle basename="localization.local" var="loc" />
+
+<fmt:message bundle="${loc}" key="local.locbutton.name.ru"
+
+var="ru_button" />
+
+<fmt:message bundle="${loc}" key="local.locbutton.name.en"
+
+var="en_button" />
 </head>
+
 <body>
+
+<form action="/" method="post">
+
+<input type="hidden" name="local" value="ru" /> <input type="submit"
+
+value="${ru_button}" /><br />
+
+</form>
+
+<form action="/" method="post">
+
+<input type="hidden" name="local" value="en" /> <input type="submit"
+
+value="${en_button}" /><br />
+
+</form>
+
 <p>
 <form action="/?search=${searchname}" method="Get">
                 <input name="searchname" type="text" />
@@ -33,11 +67,21 @@ uri="http://java.sun.com/jsp/jstl/core" %>
         <c:forEach var="person" items="${persons}">
             <tr>
                 <td>
-                <div id="logo">
-                <a href="otheruser?id=${person.getID()}">
-                <img src="/static/${photos.get(person.getID())}" width="50"></a>
+                <c:choose>
+                <c:when  test="${userID == person.getID()}">
+                  <div id="logo">
+                  <a href="user">
+                  <img src="/static/${photos.get(person.getID())}" width="50"></a>
+                  </div>
+                </c:when>
 
-                </div>
+                <c:otherwise>
+                    <div id="logo">
+                    <a href="otheruser?id=${person.getID()}">
+                    <img src="/static/${photos.get(person.getID())}" width="50"></a>
+                    </div>
+                </c:otherwise>
+                </c:choose>
                 </td>
                 <td>${person.getFirstName()}</td>
                 <td>${person.getLastName()}</td>

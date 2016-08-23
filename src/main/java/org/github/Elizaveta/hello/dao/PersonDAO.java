@@ -3,8 +3,6 @@ package org.github.Elizaveta.hello.dao;
 import org.github.Elizaveta.hello.Friendship;
 import org.github.Elizaveta.hello.Person;
 
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
@@ -15,14 +13,7 @@ public class PersonDAO {
 
     public PersonDAO() {
         super();
-        try {
-            /* Заставляем ClassLoader подгрузить класс драйвера в память java. */
-            InitialContext initContext= new InitialContext();
-            ds = (DataSource) initContext.lookup("java:comp/env/jdbc_empDS");
-      } catch (NamingException e) {
-            throw new RuntimeException(e);
-        }
-
+        ds = DataSourceUtils.getDataSource();
     }
 
     public List<Person> getPersons(){
@@ -53,24 +44,12 @@ public class PersonDAO {
             }
         }
         try (Connection connection = ds.getConnection()){
-            String insItem ="INSERT INTO USERS (FirstName, LastName, email) VALUES (?, ?, lower(?));";
+            String insItem ="INSERT INTO USERS (FirstName, LastName, email, password) VALUES (?, ?, lower(?), ?);";
             PreparedStatement prepareStatement = connection.prepareStatement(insItem);
             prepareStatement.setString(1, firstName);
             prepareStatement.setString(2, lastName);
             prepareStatement.setString(3, email);
-            prepareStatement.executeUpdate();
-
-            int ID = -1;
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT max(ID) FROM USERS");
-            if (resultSet.next()) {
-                ID = resultSet.getInt(1);
-            }
-
-            String insItem2 ="INSERT INTO passwords (ID, password) VALUES (?, ?);";
-            prepareStatement = connection.prepareStatement(insItem2);
-            prepareStatement.setInt(1, ID);
-            prepareStatement.setString(2, password);
+            prepareStatement.setString(4, password);
             prepareStatement.executeUpdate();
 
             return true;
@@ -81,30 +60,27 @@ public class PersonDAO {
         }
 
     public boolean login(String password, String email){
-        for (Person person  : getPersons()) {
-            if (person.getEmail().equals(email.toLowerCase())){
-                int ID = person.getID();
-                try(Connection connection = ds.getConnection()) {
-                    Statement statement = connection.createStatement();
-                    ResultSet resultSet = statement.executeQuery("SELECT password FROM passwords where ID = " + ID + ";");
-                    if (resultSet.next()) {
-                        if (resultSet.getString("password").equals(password)) {
-                            return true;
-                        }
-                    }
-                }catch (SQLException e) {
-                    throw new RuntimeException(e);
+        try(Connection connection = ds.getConnection()) {
+            String insItem = "SELECT * FROM USERS where password = ? and lower(email) = lower(?);";
+            PreparedStatement prepareStatement = connection.prepareStatement(insItem);
+            prepareStatement.setString(1, password);
+            prepareStatement.setString(2, email);
+            ResultSet resultSet = prepareStatement.executeQuery();
+            if (resultSet.next()) {
+                return true;
                 }
-            }
+        }catch (SQLException e) {
+            throw new RuntimeException(e);
         }
         return false;
     }
 
-    public Person getUser(int ID) {
+    public Person getUser(int id) {
         Person user = null;
         try(Connection connection = ds.getConnection()) {
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM USERS where ID = " + ID + ";");
+            PreparedStatement prepareStatement = connection.prepareStatement("SELECT * FROM USERS where ID = ?;");
+            prepareStatement.setInt(1, id);
+            ResultSet resultSet = prepareStatement.executeQuery();
             if (resultSet.next()) {
                 user = new Person(resultSet.getString("FirstName"),resultSet.getString("LastName"),
                         resultSet.getString("email"),resultSet.getInt("ID"),resultSet.getString("sex"),
@@ -120,19 +96,19 @@ public class PersonDAO {
         return user;
     }
 
-    public String getID(String email) {
+    public int getID(String email) {
         try(Connection connection = ds.getConnection()) {
             PreparedStatement prepareStatement = connection.prepareStatement("SELECT ID FROM USERS where lower(email) = lower(?) ;");
             prepareStatement.setString(1, email);
             ResultSet resultSet = prepareStatement.executeQuery();
             resultSet.next();
-            return resultSet.getString(1);
+            return resultSet.getInt(1);
         }catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void editUser(int ID, String firstname, String lastname, String sex,
+    public void editUser(int id, String firstname, String lastname, String sex,
                             String country, String town, String birthday,
                             String education, String job, String email) {
         try(Connection connection = ds.getConnection()) {
@@ -148,7 +124,7 @@ public class PersonDAO {
             prepareStatement.setString(7, education);
             prepareStatement.setString(8, job);
             prepareStatement.setString(9, email);
-            prepareStatement.setInt(10, ID);
+            prepareStatement.setInt(10, id);
             prepareStatement.executeUpdate();
         }catch (SQLException e) {
             throw new RuntimeException(e);
@@ -195,22 +171,22 @@ public class PersonDAO {
         }
         return persons;
     }
-    public List<Person> getFriends(int ID){
+    public List<Person> getFriends(int id){
         FriendshipDAO friendshipDAO = new FriendshipDAO();
-        List<Friendship> friendship = friendshipDAO.getFriendship(ID);
-        String id = "";
+        List<Friendship> friendship = friendshipDAO.getFriendship(id);
+        String idList = "";
         for (int i = 0; i < friendship.size(); i++) {
             if (i<friendship.size()-1){
-            id+= friendship.get(i).getID_otheruser() + ", ";
+            idList+= friendship.get(i).getIdOtheruser() + ", ";
             }
             else {
-                id+= friendship.get(i).getID_otheruser();
+                idList+= friendship.get(i).getIdOtheruser();
             }
         }
         List<Person> friends = new ArrayList<>();
         try(Connection connection = ds.getConnection()) {
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM USERS where ID in ("+id+");");
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM USERS where ID in (" + idList + ");");
             while (resultSet.next()) {
                friends.add(new Person(resultSet.getString("FirstName"),resultSet.getString("LastName"),
                         resultSet.getString("email"),resultSet.getInt("ID"),resultSet.getString("sex"),
