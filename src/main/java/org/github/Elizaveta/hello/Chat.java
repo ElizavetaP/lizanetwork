@@ -39,7 +39,7 @@ public class Chat extends HttpServlet {
         HttpSession httpSession = req.getSession();
         int otherUserID = Integer.parseInt(req.getParameter("id"));
         String text = req.getParameter("text");
-        messageDAO.sendMessage(text, (Integer)httpSession.getAttribute(Authorization.ID), otherUserID, "chat");
+        messageDAO.sendMessage(text, (Integer) httpSession.getAttribute(Authorization.ID), otherUserID, "chat");
         resp.sendRedirect("/chat?id=" + otherUserID);
     }
 }

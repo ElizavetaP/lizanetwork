@@ -1,8 +1,6 @@
 package org.github.Elizaveta.hello;
 
 import java.sql.*;
-import java.util.*;
-import java.util.Date;
 
 public class HelloH2 {
     public static void main(String[] args) throws Exception {

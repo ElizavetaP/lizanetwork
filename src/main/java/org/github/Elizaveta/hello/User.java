@@ -25,8 +25,8 @@ public class User extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession httpSession = req.getSession();
-        req.setAttribute("user", personDAO.getUser((Integer)httpSession.getAttribute(Authorization.ID)));
-        req.setAttribute("image", photoDAO.getAvatar((Integer)httpSession.getAttribute("ID")));
+        req.setAttribute("user", personDAO.getUser((Integer) httpSession.getAttribute(Authorization.ID)));
+        req.setAttribute("image", photoDAO.getAvatar((Integer) httpSession.getAttribute("ID")));
         req.getRequestDispatcher("user.jsp").forward(req, resp);
     }
 
@@ -37,7 +37,7 @@ public class User extends HttpServlet {
         String imagename = "image" + UUID.randomUUID().toString();
         Files.copy(fileContent, new File(filePath + imagename).toPath());
         HttpSession httpSession = req.getSession();
-        photoDAO.setAvatar((Integer)httpSession.getAttribute(Authorization.ID), imagename);
+        photoDAO.setAvatar((Integer) httpSession.getAttribute(Authorization.ID), imagename);
         req.setAttribute("image", photoDAO.getAvatar((Integer) httpSession.getAttribute("ID")));
         req.getRequestDispatcher("user.jsp").forward(req, resp);
 

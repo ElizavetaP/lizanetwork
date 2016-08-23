@@ -11,9 +11,9 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 public class Authorization extends HttpServlet {
+    public static final String ID = "id";
     private static final Logger LOG = Logger.getLogger(Authorization.class);
     PersonDAO personDAO;
-    public static final String ID = "id";
 
     public Authorization() {
         super();

@@ -26,7 +26,7 @@ public class FriendList extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession httpSession = req.getSession();
-        req.setAttribute("friends", personDAO.getFriends((Integer)httpSession.getAttribute(Authorization.ID)));
+        req.setAttribute("friends", personDAO.getFriends((Integer) httpSession.getAttribute(Authorization.ID)));
         req.setAttribute("photos", photoDAO.getAllAvatar());
         req.getRequestDispatcher("friendlist.jsp").forward(req, resp);
     }

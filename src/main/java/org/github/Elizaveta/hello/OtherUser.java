@@ -5,7 +5,10 @@ import org.github.Elizaveta.hello.dao.PersonDAO;
 import org.github.Elizaveta.hello.dao.PhotoDAO;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.*;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 public class OtherUser extends HttpServlet {
@@ -37,9 +40,9 @@ public class OtherUser extends HttpServlet {
         String action = req.getParameter("action");
         int otherUserID = Integer.parseInt(req.getParameter("id"));
         if (action.equals("add")) {
-            friendshipDAO.addFriend(otherUserID,(Integer)httpSession.getAttribute("ID"));
+            friendshipDAO.addFriend(otherUserID, (Integer) httpSession.getAttribute("ID"));
         } else {
-            friendshipDAO.removeFriend(otherUserID,(Integer)httpSession.getAttribute("ID"));
+            friendshipDAO.removeFriend(otherUserID, (Integer) httpSession.getAttribute("ID"));
         }
         resp.sendRedirect("/otheruser?id=" + otherUserID);
     }

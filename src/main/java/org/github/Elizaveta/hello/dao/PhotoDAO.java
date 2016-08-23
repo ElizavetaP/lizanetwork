@@ -2,8 +2,6 @@ package org.github.Elizaveta.hello.dao;
 
 import org.github.Elizaveta.hello.Photo;
 
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
@@ -19,69 +17,69 @@ public class PhotoDAO {
         ds = DataSourceUtils.getDataSource();
     }
 
-    public void setAvatar(int id, String avatarname){
+    public void setAvatar(int id, String avatarname) {
 
-        try (Connection connection = ds.getConnection()){
+        try (Connection connection = ds.getConnection()) {
             PreparedStatement prepareStatement = connection.prepareStatement("SELECT * FROM PHOTOS where ID = ?;");
             prepareStatement.setInt(1, id);
             ResultSet resultSet = prepareStatement.executeQuery();
-            if(resultSet.next()){
-                String insItem ="update PHOTOS set photo_name = '?' " +
+            if (resultSet.next()) {
+                String insItem = "update PHOTOS set photo_name = '?' " +
                         "where ID = ? and album_id is null;";
                 prepareStatement.setString(1, avatarname);
                 prepareStatement.setString(2, insItem);
                 prepareStatement.executeUpdate();
-            }else {
+            } else {
                 String insItem = "INSERT INTO PHOTOS (album_id, photo_name, ID) VALUES (NULL,'?', ?);";
                 prepareStatement.setString(1, avatarname);
                 prepareStatement.setString(2, insItem);
                 prepareStatement.executeUpdate();
             }
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public String getAvatar(int ID){
+    public String getAvatar(int ID) {
         String image;
-        try (Connection connection = ds.getConnection()){
+        try (Connection connection = ds.getConnection()) {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT photo_name FROM PHOTOS where ID =" + ID + ";");
-            if(resultSet.next()) {
+            if (resultSet.next()) {
                 image = resultSet.getString(1);
-            }else {
+            } else {
                 image = "qwerty";
             }
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return image;
-        }
+    }
 
-    public Map<Integer,String> getAllAvatar(){
-        Map<Integer,String> avatars = new HashMap<>();
-        try(Connection connection = ds.getConnection()){
+    public Map<Integer, String> getAllAvatar() {
+        Map<Integer, String> avatars = new HashMap<>();
+        try (Connection connection = ds.getConnection()) {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT photo_name, ID FROM PHOTOS");
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 avatars.put(resultSet.getInt("ID"), resultSet.getString("photo_name"));
             }
-            }catch (SQLException e){
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return avatars;
     }
 
-    public List<Photo>  getAllPhotos(){
+    public List<Photo> getAllPhotos() {
         List<Photo> photos = new ArrayList<>();
-        try(Connection connection = ds.getConnection()){
+        try (Connection connection = ds.getConnection()) {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT photo_name, ID, album_id, photo_id FROM PHOTOS");
-            while (resultSet.next()){
-                photos.add(new Photo(resultSet.getInt("photo_id"),resultSet.getInt("album_id"),
-                        resultSet.getString("photo_name"),resultSet.getInt("ID")));
+            while (resultSet.next()) {
+                photos.add(new Photo(resultSet.getInt("photo_id"), resultSet.getInt("album_id"),
+                        resultSet.getString("photo_name"), resultSet.getInt("ID")));
             }
-        }catch (SQLException e){
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return photos;

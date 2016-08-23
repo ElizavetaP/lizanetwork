@@ -6,10 +6,10 @@ import javax.sql.DataSource;
 
 public class DataSourceUtils {
 
-    public static DataSource getDataSource(){
+    public static DataSource getDataSource() {
         try {
-            InitialContext initContext= new InitialContext();
-            return  (DataSource) initContext.lookup("java:comp/env/jdbc_empDS");
+            InitialContext initContext = new InitialContext();
+            return (DataSource) initContext.lookup("java:comp/env/jdbc_empDS");
         } catch (NamingException e) {
             throw new RuntimeException(e);
         }

@@ -1,6 +1,7 @@
 package org.github.Elizaveta.hello.dao;
 
 import org.github.Elizaveta.hello.Friendship;
+
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
@@ -25,16 +26,17 @@ public class FriendshipDAO {
             throw new RuntimeException(e);
         }
     }
-    public boolean isFriend(int otherUserID, int id){
+
+    public boolean isFriend(int otherUserID, int id) {
         try (Connection connection = ds.getConnection()) {
             String insItem = "Select ID, ID_otheruser from friendship where ID = ? and ID_otheruser = ?;";
             PreparedStatement prepareStatement = connection.prepareStatement(insItem);
             prepareStatement.setInt(1, id);
             prepareStatement.setInt(2, otherUserID);
             ResultSet resultSet = prepareStatement.executeQuery();
-            if(resultSet.next()){
+            if (resultSet.next()) {
                 return true;
-            }else {
+            } else {
                 return false;
             }
         } catch (SQLException e) {
@@ -53,15 +55,16 @@ public class FriendshipDAO {
             throw new RuntimeException(e);
         }
     }
-    public List<Friendship> getFriendship(int id){
+
+    public List<Friendship> getFriendship(int id) {
         List<Friendship> friendships = new ArrayList<>();
         try (Connection connection = ds.getConnection()) {
             String insItem = "Select ID, ID_otheruser from friendship where ID = ?;";
             PreparedStatement prepareStatement = connection.prepareStatement(insItem);
             prepareStatement.setInt(1, id);
             ResultSet resultSet = prepareStatement.executeQuery();
-            while (resultSet.next()){
-                friendships.add(new Friendship(resultSet.getInt("ID"),resultSet.getInt("ID_otheruser")));
+            while (resultSet.next()) {
+                friendships.add(new Friendship(resultSet.getInt("ID"), resultSet.getInt("ID_otheruser")));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

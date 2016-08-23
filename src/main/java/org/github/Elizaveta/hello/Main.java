@@ -33,7 +33,7 @@ public class Main extends HttpServlet {
             req.setAttribute("persons", personDAO.searchByName(searchname));
         }
         HttpSession httpSession = req.getSession();
-        req.setAttribute("userID",httpSession.getAttribute(Authorization.ID));
+        req.setAttribute("userID", httpSession.getAttribute(Authorization.ID));
         req.getRequestDispatcher("main.jsp").forward(req, resp);
     }
 

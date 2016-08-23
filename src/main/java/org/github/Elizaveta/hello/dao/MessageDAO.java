@@ -21,7 +21,7 @@ public class MessageDAO {
         ds = DataSourceUtils.getDataSource();
     }
 
-    public void sendMessage(String text, int senderID, int recipientID, String type){
+    public void sendMessage(String text, int senderID, int recipientID, String type) {
         try (Connection connection = ds.getConnection()) {
             String insItem = "INSERT INTO messages (message, ID_sender, ID_recipient, date, type) VALUES (?,?,?,?,?);";
             PreparedStatement prepareStatement = connection.prepareStatement(insItem);
@@ -36,7 +36,7 @@ public class MessageDAO {
         }
     }
 
-    public List<Message> getMessage(String type, int userID, int otherUserID){
+    public List<Message> getMessage(String type, int userID, int otherUserID) {
         List<Message> messages = new ArrayList<>();
         try (Connection connection = ds.getConnection()) {
             String insItem = "Select ID_sender, ID_recipient, date, ID_message, message  from messages where ((ID_recipient = ? and ID_sender = ?) " +
@@ -48,9 +48,9 @@ public class MessageDAO {
             prepareStatement.setInt(4, userID);
             prepareStatement.setString(5, type);
             ResultSet resultSet = prepareStatement.executeQuery();
-            while (resultSet.next()){
-                messages.add(new Message(resultSet.getInt("ID_sender"),resultSet.getInt("ID_recipient"),
-                        resultSet.getString("date"), resultSet.getLong("ID_message"),type,resultSet.getString("message")));
+            while (resultSet.next()) {
+                messages.add(new Message(resultSet.getInt("ID_sender"), resultSet.getInt("ID_recipient"),
+                        resultSet.getString("date"), resultSet.getLong("ID_message"), type, resultSet.getString("message")));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
