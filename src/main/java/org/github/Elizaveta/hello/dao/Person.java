@@ -1,4 +1,4 @@
-package org.github.Elizaveta.hello;
+package org.github.Elizaveta.hello.dao;
 
 import java.util.Date;
 
@@ -42,7 +42,7 @@ public class Person {
         return email;
     }
 
-    public int getId() {
+    public int getID() {
         return id;
     }
 

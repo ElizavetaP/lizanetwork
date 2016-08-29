@@ -35,8 +35,8 @@ public class FriendList extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession httpSession = req.getSession();
         int id = Integer.parseInt(req.getParameter("id"));
-        friendshipDAO.removeFriend(id, Integer.parseInt((String) httpSession.getAttribute("ID")));
-        req.setAttribute("friends", personDAO.getFriends(Integer.parseInt((String) httpSession.getAttribute("ID"))));
+        friendshipDAO.removeFriend(id,(Integer) httpSession.getAttribute(Authorization.ID));
+        req.setAttribute("friends", personDAO.getFriends((Integer) httpSession.getAttribute(Authorization.ID)));
         req.setAttribute("photos", photoDAO.getAllAvatar());
         req.getRequestDispatcher("friendlist.jsp").forward(req, resp);
     }

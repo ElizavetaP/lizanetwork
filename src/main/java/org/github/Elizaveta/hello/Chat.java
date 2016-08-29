@@ -1,15 +1,18 @@
 package org.github.Elizaveta.hello;
 
+import org.github.Elizaveta.hello.dao.Message;
 import org.github.Elizaveta.hello.dao.MessageDAO;
 import org.github.Elizaveta.hello.dao.PersonDAO;
 import org.github.Elizaveta.hello.dao.PhotoDAO;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.List;
 
 public class Chat extends HttpServlet {
     PersonDAO personDAO;
@@ -29,7 +32,33 @@ public class Chat extends HttpServlet {
         int otherUserID = Integer.parseInt(req.getParameter("id"));
         req.setAttribute("id", otherUserID);
         req.setAttribute("photos", photoDAO.getAllAvatar());
-        req.setAttribute("messages", messageDAO.getMessage("chat", Integer.parseInt((String) httpSession.getAttribute("ID")), otherUserID));
+
+        JSPSetBean jsp = new JSPSetBean(messageDAO.getMessage("chat",(Integer) httpSession.getAttribute(Authorization.ID), otherUserID));
+        req.setAttribute("beanmessages",jsp);
+
+        List<Message> allmessages = messageDAO.getMessage("chat",(Integer) httpSession.getAttribute(Authorization.ID),
+                otherUserID);
+        int noOfRecords = allmessages.size();
+        int recordsPerPage = 5;
+        int noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
+        int page = noOfPages;
+        if(req.getParameter("page") != null){
+            page = Integer.parseInt(req.getParameter("page"));
+        }
+
+        List<Message> pagemassages;
+        if((page-1)*recordsPerPage+recordsPerPage>noOfRecords){
+            pagemassages = allmessages.subList((page-1)*recordsPerPage,noOfRecords);
+        }else {
+            pagemassages = allmessages.subList((page-1)*recordsPerPage,(page-1)*recordsPerPage+recordsPerPage);
+        }
+        req.setAttribute("messages", pagemassages);
+
+        req.setAttribute("employeeList", pagemassages);
+        req.setAttribute("noOfPages", noOfPages);
+        req.setAttribute("currentPage", page);
+
+
         req.getRequestDispatcher("chat.jsp").forward(req, resp);
 
     }

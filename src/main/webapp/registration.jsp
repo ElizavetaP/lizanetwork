@@ -13,7 +13,9 @@
      </style>
 </head>
 <body>
+<p>
     Create account:
+</p>
     <form action="register" method="Post">
         <input name="newfirstname" type="text" value="firstname" title="firstname" required/>
         <input name="newlastname" type="text" value="lastname" title="lastname" required/>

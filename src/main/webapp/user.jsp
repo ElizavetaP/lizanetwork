@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <%@ include file="head.jsp" %>
+
 <head>
-    <meta charset="UTF-8">
     <title>Person</title>
     <style>
        .top {

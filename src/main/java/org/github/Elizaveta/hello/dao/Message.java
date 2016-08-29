@@ -1,4 +1,4 @@
-package org.github.Elizaveta.hello;
+package org.github.Elizaveta.hello.dao;
 
 public class Message {
     private int senderID;

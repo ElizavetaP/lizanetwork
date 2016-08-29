@@ -1,9 +1,5 @@
 package org.github.Elizaveta.hello.dao;
 
-import org.github.Elizaveta.hello.Message;
-
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

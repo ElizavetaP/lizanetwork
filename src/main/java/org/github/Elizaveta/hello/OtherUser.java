@@ -29,7 +29,7 @@ public class OtherUser extends HttpServlet {
         int otherUserID = Integer.parseInt(req.getParameter("id"));
         req.setAttribute("user", personDAO.getUser(otherUserID));
         req.setAttribute("image", photoDAO.getAvatar(otherUserID));
-        req.setAttribute("isFriend", friendshipDAO.isFriend(otherUserID, Integer.parseInt((String) httpSession.getAttribute("ID"))));
+        req.setAttribute("isFriend", friendshipDAO.isFriend(otherUserID,(Integer) httpSession.getAttribute(Authorization.ID)));
         req.getRequestDispatcher("otheruser.jsp").forward(req, resp);
 
     }
@@ -40,9 +40,9 @@ public class OtherUser extends HttpServlet {
         String action = req.getParameter("action");
         int otherUserID = Integer.parseInt(req.getParameter("id"));
         if (action.equals("add")) {
-            friendshipDAO.addFriend(otherUserID, (Integer) httpSession.getAttribute("ID"));
+            friendshipDAO.addFriend(otherUserID, (Integer) httpSession.getAttribute(Authorization.ID));
         } else {
-            friendshipDAO.removeFriend(otherUserID, (Integer) httpSession.getAttribute("ID"));
+            friendshipDAO.removeFriend(otherUserID, (Integer) httpSession.getAttribute(Authorization.ID));
         }
         resp.sendRedirect("/otheruser?id=" + otherUserID);
     }

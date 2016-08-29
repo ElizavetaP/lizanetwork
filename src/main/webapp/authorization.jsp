@@ -10,7 +10,9 @@
       </style>
 </head>
 <body>
+<p>
     Log in:
+</p>
     <form action="authorization" method="Post">
         <input name="logemail" type="email" value="email" title="email" required/>
         <input name="logpassword" type="password" value="" title="password" required/>

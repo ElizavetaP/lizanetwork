@@ -1,7 +1,5 @@
 package org.github.Elizaveta.hello.dao;
 
-import org.github.Elizaveta.hello.Friendship;
-
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
