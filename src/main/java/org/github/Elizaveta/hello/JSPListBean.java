@@ -5,12 +5,12 @@ import org.github.Elizaveta.hello.dao.Message;
 import java.util.Iterator;
 import java.util.List;
 
-public class JSPSetBean {
+public class JSPListBean {
     private Iterator<Message> it;
     private List<Message> list;
 
-    public JSPSetBean(List<Message> set){
-        this.list = set;
+    public JSPListBean(List<Message> list){
+        this.list = list;
     }
 
     public String getSize(){

@@ -8,11 +8,11 @@
     <uri> /WEB-INF/tld/taglib.tld </uri>
 
     <tag>
-        <name> bodyjspset </name>
-        <tag-class> org.github.Elizaveta.hello.JSPTagWithBody </tag-class>
-        <body-content> JSP </body-content>
+        <name> jsplist </name>
+        <tag-class>org.github.Elizaveta.hello.SpecialJSPTag</tag-class>
+        <body-content> empty </body-content>
         <attribute>
-            <name> num </name>
+            <name> list </name>
             <required> false </required>
             <rtexprvalue> true </rtexprvalue>
         </attribute>

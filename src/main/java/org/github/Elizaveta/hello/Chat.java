@@ -5,7 +5,6 @@ import org.github.Elizaveta.hello.dao.MessageDAO;
 import org.github.Elizaveta.hello.dao.PersonDAO;
 import org.github.Elizaveta.hello.dao.PhotoDAO;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -33,9 +32,6 @@ public class Chat extends HttpServlet {
         req.setAttribute("id", otherUserID);
         req.setAttribute("photos", photoDAO.getAllAvatar());
 
-        JSPSetBean jsp = new JSPSetBean(messageDAO.getMessage("chat",(Integer) httpSession.getAttribute(Authorization.ID), otherUserID));
-        req.setAttribute("beanmessages",jsp);
-
         List<Message> allmessages = messageDAO.getMessage("chat",(Integer) httpSession.getAttribute(Authorization.ID),
                 otherUserID);
         int noOfRecords = allmessages.size();
@@ -52,12 +48,10 @@ public class Chat extends HttpServlet {
         }else {
             pagemassages = allmessages.subList((page-1)*recordsPerPage,(page-1)*recordsPerPage+recordsPerPage);
         }
-        req.setAttribute("messages", pagemassages);
-
-        req.setAttribute("employeeList", pagemassages);
+        JSPListBean jsp = new JSPListBean(pagemassages);
+        req.setAttribute("messages", jsp);
         req.setAttribute("noOfPages", noOfPages);
         req.setAttribute("currentPage", page);
-
 
         req.getRequestDispatcher("chat.jsp").forward(req, resp);
 

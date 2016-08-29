@@ -11,6 +11,7 @@
 
 <p>
 <table align="center" style="width: 50%; word-wrap: break-word;table-layout: fixed;">
+<mytag:jsplist list="${messages}" />
 <c:forEach var="message" items="${messages}">
             <tr>
                 <td width="70" valign="top">
@@ -61,12 +62,6 @@
     </c:if>
    </tr>
    </table>
-
-<mytag:bodyjspset num="${beanmessages.getSize()}">
-
-${beanmessages.getElement().getText()}
-
-</mytag:bodyjspset>
 
 </body>
 </html>
