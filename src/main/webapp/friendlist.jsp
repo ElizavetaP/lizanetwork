@@ -1,6 +1,6 @@
+<%@ include file="head.jsp" %>
 <%@ taglib prefix="c"
 uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ include file="head.jsp" %>
 <head>
     <meta charset="UTF-8">
     <title>Friendship</title>

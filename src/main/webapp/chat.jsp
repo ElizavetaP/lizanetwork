@@ -1,6 +1,6 @@
+<%@ include file="head.jsp" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="/WEB-INF/tld/taglib.tld" prefix="mytag"%>
-<%@ include file="head.jsp" %>
 <html>
 <head>
     <title>Devcolibri.com</title>
@@ -8,21 +8,11 @@
 <body>
 
 <table>
-
 <p>
 <table align="center" style="width: 50%; word-wrap: break-word;table-layout: fixed;">
-<mytag:jsplist list="${messages}" />
 <c:forEach var="message" items="${messages}">
             <tr>
-                <td width="70" valign="top">
-                <div id="logo">
-                <a href="otheruser?id=${message.getSenderID()}">
-                <img src="/static/${photos.get(message.getSenderID())}" width="50"></a>
-                </div>
-                </td>
-                <td align="left">
-                ${message.getText()}</td>
-                <td width=15%><font size="-1" color="grey">${message.getDate()}</font></td>
+                <mytag:jstmessage message="${message}" />
             </tr>
 </c:forEach>
 <tr>

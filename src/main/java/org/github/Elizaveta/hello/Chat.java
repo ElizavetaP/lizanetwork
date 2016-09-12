@@ -48,13 +48,13 @@ public class Chat extends HttpServlet {
         }else {
             pagemassages = allmessages.subList((page-1)*recordsPerPage,(page-1)*recordsPerPage+recordsPerPage);
         }
-        JSPListBean jsp = new JSPListBean(pagemassages);
-        req.setAttribute("messages", jsp);
+        req.setAttribute("messages", pagemassages);
+
+        req.setAttribute("employeeList", pagemassages);
         req.setAttribute("noOfPages", noOfPages);
         req.setAttribute("currentPage", page);
 
         req.getRequestDispatcher("chat.jsp").forward(req, resp);
-
     }
 
     @Override

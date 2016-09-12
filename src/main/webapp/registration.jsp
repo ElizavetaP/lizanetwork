@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <%@ include file="headforauth.jsp" %>
 <head>
     <meta charset="UTF-8">

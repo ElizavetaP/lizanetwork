@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+<html lang="en">
 <%@ page language="java" contentType="text/html; charset=utf-8"
 pageEncoding="utf-8"%>
 <table width="100%" align="center"
@@ -22,4 +24,4 @@ bgcolor="#B3FFA2" >
 </td>
 </tr>
 </table>
-<html lang="en">
+
