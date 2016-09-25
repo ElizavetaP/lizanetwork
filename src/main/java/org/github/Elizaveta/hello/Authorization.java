@@ -12,7 +12,7 @@ import java.io.IOException;
 
 public class Authorization extends HttpServlet {
     public static final String ID = "id";
-    private static final Logger LOG = Logger.getLogger(Authorization.class);
+    private static final Logger LOG = Logger.getLogger(Authorization.class.getName());
     PersonDAO personDAO;
 
     public Authorization() {
@@ -35,7 +35,6 @@ public class Authorization extends HttpServlet {
         String email = req.getParameter("logemail");
         String password = req.getParameter("logpassword");
         boolean isLogged = personDAO.login(password, email);
-        LOG.debug("authorization is " + isLogged);
 
         HttpSession httpSession = req.getSession();
         if (isLogged) {
@@ -43,9 +42,11 @@ public class Authorization extends HttpServlet {
             httpSession.setAttribute("isLogged", "Logged");
             httpSession.setAttribute("id", id);
             resp.sendRedirect("user");
+            LOG.info("user id = " + id + " logged");
         } else {
             req.setAttribute("errormessage", "Incorrect email or password");
             req.getRequestDispatcher("authorization.jsp").forward(req, resp);
+            LOG.info("Incorrect email or password");
         }
     }
 

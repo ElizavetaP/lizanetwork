@@ -10,9 +10,9 @@
 <table>
 <p>
 <table align="center" style="width: 50%; word-wrap: break-word;table-layout: fixed;">
-<c:forEach var="message" items="${messages}">
+<c:forEach var="messageWithAvatar" items="${messageWithAvatars}">
             <tr>
-                <mytag:jstmessage message="${message}" />
+                <mytag:jstmessage messageWithAvatar="${messageWithAvatar}" />
             </tr>
 </c:forEach>
 <tr>

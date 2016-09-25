@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class Registration extends HttpServlet {
-    private static final Logger LOG = Logger.getLogger(Registration.class);
+    private static final Logger LOG = Logger.getLogger(Registration.class.getName());
     PersonDAO personDAO = null;
 
     public Registration() {
@@ -46,6 +46,7 @@ public class Registration extends HttpServlet {
 
             req.setAttribute("answermessage", "Successful registration. Please log in");
             req.getRequestDispatcher("registration.jsp").forward(req, resp);
+            LOG.info("Successful registration for new user with email=" + newemail);
         }
     }
 }

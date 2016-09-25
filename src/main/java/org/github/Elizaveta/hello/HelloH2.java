@@ -84,3 +84,4 @@ public class HelloH2 {
         return DriverManager.getConnection("jdbc:h2:~/git/hellow/src/main/java/org/github/Elizaveta/hello/helloh2db","sa","");
     }
 }
+

@@ -1,9 +1,6 @@
 package org.github.Elizaveta.hello;
 
-import org.github.Elizaveta.hello.dao.Message;
-import org.github.Elizaveta.hello.dao.MessageDAO;
-import org.github.Elizaveta.hello.dao.PersonDAO;
-import org.github.Elizaveta.hello.dao.PhotoDAO;
+import org.github.Elizaveta.hello.dao.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -11,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Chat extends HttpServlet {
@@ -30,10 +28,10 @@ public class Chat extends HttpServlet {
         HttpSession httpSession = req.getSession();
         int otherUserID = Integer.parseInt(req.getParameter("id"));
         req.setAttribute("id", otherUserID);
-        req.setAttribute("photos", photoDAO.getAllAvatar());
 
         List<Message> allmessages = messageDAO.getMessage("chat",(Integer) httpSession.getAttribute(Authorization.ID),
                 otherUserID);
+
         int noOfRecords = allmessages.size();
         int recordsPerPage = 5;
         int noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
@@ -48,9 +46,12 @@ public class Chat extends HttpServlet {
         }else {
             pagemassages = allmessages.subList((page-1)*recordsPerPage,(page-1)*recordsPerPage+recordsPerPage);
         }
-        req.setAttribute("messages", pagemassages);
-
-        req.setAttribute("employeeList", pagemassages);
+        List<MessageWithAvatar> messageWithAvatars= new ArrayList<>();
+        for (Message message : pagemassages) {
+            messageWithAvatars.add(new MessageWithAvatar(message,photoDAO.getAvatar(message.getSenderID())));
+        }
+        req.setAttribute("messageWithAvatars", messageWithAvatars);
+       // req.setAttribute("employeeList", pagemassages);
         req.setAttribute("noOfPages", noOfPages);
         req.setAttribute("currentPage", page);
 

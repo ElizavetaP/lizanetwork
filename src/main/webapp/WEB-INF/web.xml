@@ -40,6 +40,10 @@
         <servlet-name>chat</servlet-name>
         <servlet-class>org.github.Elizaveta.hello.Chat</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>language</servlet-name>
+        <servlet-class>org.github.Elizaveta.hello.Language</servlet-class>
+    </servlet>
 
     <filter-mapping>
         <filter-name>filter</filter-name>
@@ -79,6 +83,10 @@
     <servlet-mapping>
         <servlet-name>chat</servlet-name>
         <url-pattern>/chat</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>language</servlet-name>
+        <url-pattern>/language</url-pattern>
     </servlet-mapping>
 
     <resource-ref>

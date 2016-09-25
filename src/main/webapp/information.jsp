@@ -2,7 +2,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Information</title>
-
 </head>
 <body>
 <form action="information" method="Post">

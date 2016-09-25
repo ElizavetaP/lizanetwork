@@ -12,7 +12,7 @@
         <tag-class>org.github.Elizaveta.hello.SpecialJSPTag</tag-class>
         <body-content> empty </body-content>
         <attribute>
-            <name> message </name>
+            <name> messageWithAvatar </name>
             <required> false </required>
             <rtexprvalue> true </rtexprvalue>
         </attribute>

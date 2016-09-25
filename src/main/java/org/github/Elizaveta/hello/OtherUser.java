@@ -27,9 +27,14 @@ public class OtherUser extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession httpSession = req.getSession();
         int otherUserID = Integer.parseInt(req.getParameter("id"));
+        if(otherUserID == (Integer)httpSession.getAttribute(Authorization.ID)){
+            resp.sendRedirect("/user");
+            return;
+        }
         req.setAttribute("user", personDAO.getUser(otherUserID));
         req.setAttribute("image", photoDAO.getAvatar(otherUserID));
         req.setAttribute("isFriend", friendshipDAO.isFriend(otherUserID,(Integer) httpSession.getAttribute(Authorization.ID)));
+
         req.getRequestDispatcher("otheruser.jsp").forward(req, resp);
 
     }

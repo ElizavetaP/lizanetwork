@@ -24,13 +24,15 @@ public class PhotoDAO {
             if (resultSet.next()) {
                 String insItem = "update PHOTOS set photo_name = '?' " +
                         "where ID = ? and album_id is null;";
+                prepareStatement = connection.prepareStatement(insItem);
                 prepareStatement.setString(1, avatarname);
-                prepareStatement.setString(2, insItem);
+                prepareStatement.setInt(2, id);
                 prepareStatement.executeUpdate();
             } else {
-                String insItem = "INSERT INTO PHOTOS (album_id, photo_name, ID) VALUES (NULL,'?', ?);";
+                String insItem = "INSERT INTO PHOTOS (album_id, photo_name, ID) VALUES (NULL,?, ?);";
+                prepareStatement = connection.prepareStatement(insItem);
                 prepareStatement.setString(1, avatarname);
-                prepareStatement.setString(2, insItem);
+                prepareStatement.setInt(2, id);
                 prepareStatement.executeUpdate();
             }
         } catch (SQLException e) {

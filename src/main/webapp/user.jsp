@@ -50,5 +50,10 @@ Edit
            <input type="submit" value="Friend List"/>
                </form>
 </p>
+<p>
+<form action="/" method="Get" >
+           <input type="submit" value="Find friends"/>
+               </form>
+</p>
 </body>
 </html>
